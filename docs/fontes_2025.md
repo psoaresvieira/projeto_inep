@@ -1,7 +1,7 @@
 # Incorporacao das bases INEP 2025 — Plano de validacao
 
 **Data:** 11/11/2026  
-**Status:** download e inspecao automatizada iniciados; contagens e campos de 2025 ainda nao confirmados.
+**Status:** download e inventário estrutural dos ZIPs concluídos no GitHub Actions; filtros, contagens da PB e integração de 2025 ainda pendentes.
 
 ## Arquivos oficiais selecionados
 
@@ -21,7 +21,23 @@ Apos execucao bem-sucedida, o resultado esperado e:
 - `reports/inspecao_2025/inventario.json` (artefato temporario);
 - `reports/inspecao_2025/downloads.json` (artefato temporario).
 
-**Nao se deve considerar os datasets de 2025 processados ate o workflow ser concluido e os arquivos verificados.**
+**A inspeção estrutural foi concluída** com sucesso em [GitHub Actions #43067294218](https://github.com/psoaresvieira/projeto_inep/actions/runs/43067294218). O [inventário de 2025](../reports/inspecao_2025/inventario.md) foi publicado. A leitura dos cabeçalhos não constitui a análise completa.
+
+## Resultados efetivamente observados na inspeção de 2025
+
+| Item | Resultado |
+|---|---|
+| ENEM 2025 | ZIP válido, com 21 arquivos internos, incluindo PARTICIPANTES_2025.csv e RESULTADOS_2025.csv |
+| ENEM 2025 — participantes | CSV com 38 colunas amostradas; contém NU_INSCRICAO e SG_UF_PROVA |
+| ENEM 2025 — resultados | CSV identificado, **leitura bloqueada: método de compactação não suportado** pela biblioteca Python utilizada |
+| Censo Escolar 2025 | ZIP válido, com 19 arquivos internos |
+| Censo 2025 — escolas | Tabela_Escola_2025_V2.csv, 290 colunas amostradas, incluindo CO_ENTIDADE, CO_MUNICIPIO, SG_UF e TP_DEPENDENCIA |
+| Censo 2025 — arquivos | Separação em tabelas Escola, Matrícula, Docente, Turma, Gestor e Curso Técnico |
+
+**Não foi verificada a contagem de estudantes ou escolas da PB nas edições 2025.**
+A tabela escolar de 2025 foi reorganizada e não pode ser tratada como cópia idêntica do CSV único de 2024. O campo de notas do ENEM 2025 ainda exige suporte à compactação utilizada no pacote e verificação do dicionário.
+
+**Próximas medidas técnicas:** identificar o método numérico de compressão do membro RESULTADOS_2025.csv e instalar um descompactador compatível (sem usar fallback que altere os bytes); validar o arquivo extraído e seu dicionário; adaptar os filtros do Censo à estrutura de múltiplas tabelas; calcular contagens reais e conferir chaves antes de qualquer comparação 2024–2025.
 
 ## Revisoes obrigatorias antes de filtrar e integrar
 
