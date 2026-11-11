@@ -64,9 +64,11 @@ def analisar():
             if obrigatoria not in indices:
                 raise ValueError(f"Coluna obrigatória ausente: {obrigatoria}")
 
-        candidatos = [s for s in indices if "IDEB" in s.upper() and "2025" in s]
-        preferidos = [s for s in candidatos if s.upper() == "VL_IDEB_2025"]
+        candidatos = [s for s in indices if s.upper() in ("VL_IDEB_2025", "VL_OBSERVADO_2025")]
+        preferidos = [s for s in candidatos if s.upper() == "VL_OBSERVADO_2025"]
         nome_ideb = (preferidos or candidatos or [None])[0]
+        if nome_ideb is None:
+            raise ValueError("A coluna de IDEB observado de 2025 não foi encontrada.")
         conta_pb = conta_estadual = 0
         codigos = set()
         cidades = set()
