@@ -10,7 +10,7 @@ Este relatório reúne os resultados de processamento dos arquivos oficiais publ
 - [Recorte específico do Censo Escolar PB](../reports/inspecao/censo_pb_2024.md).
 - [Inventário da estrutura dos pacotes](../reports/inspecao/inventario.md).
 
-A análise de IDEB 2025 e a identificação de chaves para integração escolar permanecem em andamento.
+A leitura do IDEB 2025 foi validada; a correspondência entre identificadores escolares nas diferentes bases permanece em avaliação.
 
 ## 2. Censo Escolar 2024
 
@@ -62,7 +62,24 @@ A análise de IDEB 2025 e a identificação de chaves para integração escolar 
 
 Esses resultados são descrições dos participantes analisáveis, **não do conjunto integral de estudantes da rede estadual**. A presença na prova e a composição dos participantes afetam diretamente os denominadores. As médias de diferentes provas não devem ser comparadas como se medissem competências em escala idêntica.
 
-## 4. Limitação importante da integração
+## 4. IDEB 2025 — Escolas da Paraíba
+
+A planilha oficial de resultados por escola apresenta **529 escolas da PB** (todas as redes) e **478 escolas estaduais** (todas com código distinto). Dessas escolas estaduais, **458 possuem IDEB 2025 com valor numérico válido** na coluna técnica `VL_OBSERVADO_2025`, e **20 não possuem nota válida**.
+
+Estatísticas **somente das 458 escolas com nota**:
+
+| Métrica | Valor |
+|---|---:|
+| Média simples não ponderada | 4,267 |
+| Mediana | 4,3 |
+| Mínimo | 2,7 |
+| Máximo | 5,8 |
+
+A média simples calculada por escola não representa o IDEB oficial agregado da rede. Também não se deve presumir correspondência 1:1 entre a população do IDEB 2025 e a do Censo 2024.
+
+Fonte e método: [Perfil IDEB 2025 — escolas PB](../reports/inspecao/ideb_pb_2025.md).
+
+## 5. Limitação importante da integração
 
 No inventário, o arquivo de participantes do ENEM possui `NU_INSCRICAO`, enquanto o arquivo de resultados utiliza `NU_SEQUENCIAL`. Não foi demonstrada chave individual comum, e `NU_SEQUENCIAL` também não corresponde à posição do registro no arquivo (4.332.944 divergências na verificação).
 
@@ -70,17 +87,17 @@ No inventário, o arquivo de participantes do ENEM possui `NU_INSCRICAO`, enquan
 
 A junção de `CO_ESCOLA` (ENEM resultados) com `CO_ENTIDADE` (Censo) é apenas candidata, dependendo de correspondência e de cardinalidade; ainda não foi executada.
 
-## 5. Hipóteses a investigar, não conclusões
+## 6. Hipóteses a investigar, não conclusões
 
 1. Distribuição territorial e níveis de acesso a recursos de infraestrutura escolar.
 2. Relação descritiva entre infraestrutura e resultados educacionais, **apenas após integração validada por escola e período**.
 3. Presença e ausência no ENEM por grupo de participantes, sem extrapolar para a rede completa.
 4. Diferenças entre escolas ou grupos em indicadores de aprendizagem/fluxo com IDEB e SAEB.
 
-## 6. Próximas verificações
+## 7. Próximas verificações
 
 - [ ] Conferir as definições e códigos das variáveis nos dicionários de 2024.
-- [ ] Completar o recorte agregado do IDEB 2025.
+- [x] Completar o recorte agregado do IDEB 2025, preservando os registros sem nota válida.
 - [ ] Medir a correspondência `CO_ESCOLA` ↔ `CO_ENTIDADE` e perdas na junção, respeitando unidade e ano.
 - [ ] Coletar e harmonizar dados de 2025 quando disponíveis para as séries comparativas.
 - [ ] Verificar quais métricas são adequadas para recomendações de políticas públicas.
