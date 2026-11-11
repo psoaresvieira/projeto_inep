@@ -47,11 +47,11 @@ Antes de interpretar os resultados é indispensável verificar os dicionários o
 
 - Censo Escolar: **5.325 escolas da PB**, das quais **482 estaduais com oferta de ensino médio** e **116.779 matrículas** declaradas nesse recorte.
 - ENEM: **29.783 registros de participantes com escola estadual identificada na PB**; o total de participantes que fizeram a prova no estado (**128.546**) pertence a outro critério.
-- IDEB 2025: **478 escolas estaduais** identificadas na planilha de ensino médio. A extração correta da nota de 2025 ainda está em validação.
+- IDEB 2025: **478 escolas estaduais** identificadas, das quais **458 possuem nota válida** na coluna `VL_OBSERVADO_2025`; média simples por escola com nota **4,267** (não é o IDEB oficial da rede).
 
 Relatórios: [Resultados preliminares](docs/resultados_preliminares.md), [Censo PB 2024](reports/inspecao/censo_pb_2024.md) e [Perfil ENEM e Censo](reports/inspecao/perfil_paraiba.md).
 
-Código e documentação de filtragem: [script](src/02_filtragem.py) e [critérios](docs/estrategia_filtragem.md). Os testes sintéticos dos filtros passaram no GitHub Actions.
+Código e documentação de filtragem: [script](src/02_filtragem.py) e [critérios](docs/estrategia_filtragem.md). Os testes sintéticos dos filtros passaram no GitHub Actions. O fluxo de filtragem completa de 2024 está registrado na [Issue #2](../../issues/2); só serão publicados relatórios agregados.
 
 **Estado atual:** Issue #1 com contagens nacionais e estaduais processadas; a validação de dicionários e relacionamentos ainda está aberta. Issue #2 com script e testes preparados, mas filtragem real ainda não concluída.
 
