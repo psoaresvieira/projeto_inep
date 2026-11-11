@@ -1,6 +1,6 @@
 # Inventário técnico — Projeto ENEM Paraíba
 
-Gerado em UTC: 2026-11-11T16:04:22+00:00
+Gerado em UTC: 2026-11-11T16:37:44+00:00
 
 ## Escopo e limites
 
