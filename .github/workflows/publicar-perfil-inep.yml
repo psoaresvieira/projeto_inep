@@ -1,0 +1,66 @@
+name: Publicar perfil INEP da execução concluída
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/publicar-perfil-inep.yml"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publicar-perfil:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Recuperar relatório agregado do run 43058454732
+        uses: actions/download-artifact@v4
+        with:
+          name: perfil-inep-paraiba
+          run-id: 43058454732
+          github-token: ${{ github.token }}
+          path: reports/inspecao
+      - name: Validar resultados antes de publicar
+        run: |
+          find reports/inspecao -maxdepth 2 -type f
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          base=Path("reports/inspecao")
+          arq=base/"perfil_paraiba.json"
+          if not arq.exists():
+              raise SystemExit("Perfil JSON ausente no artefato.")
+          data=json.loads(arq.read_text(encoding="utf-8"))
+          if data.get("falhas"):
+              raise SystemExit(f"Falhas detectadas no perfil: {data['falhas']}")
+          requeridas={"PARTICIPANTES_ENEM_2024","RESULTADOS_ENEM_2024","CENSO_ESCOLAR_2024","IDEB_2025"}
+          faltantes=requeridas-set(data["fontes"])
+          if faltantes:
+              raise SystemExit(f"Fontes ausentes: {faltantes}")
+          for k in ("PARTICIPANTES_ENEM_2024","RESULTADOS_ENEM_2024"):
+              if data["fontes"][k]["registros_nacionais"] < 1000:
+                  raise SystemExit(f"Contagem suspeita: {k}")
+          if data["fontes"]["CENSO_ESCOLAR_2024"]["registros_nacionais_escolas"] < 1000:
+              raise SystemExit("Contagem suspeita no Censo.")
+          if not (base/"perfil_paraiba.md").exists():
+              raise SystemExit("Perfil Markdown ausente.")
+          print("Arquivos verificados; resumo:")
+          print("Participantes ENEM:", data["fontes"]["PARTICIPANTES_ENEM_2024"]["registros_nacionais"])
+          print("Resultados ENEM:", data["fontes"]["RESULTADOS_ENEM_2024"]["registros_nacionais"])
+          print("Censo escolar:", data["fontes"]["CENSO_ESCOLAR_2024"]["registros_nacionais_escolas"])
+          PY
+      - name: Publicar apenas Markdown agregado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/inspecao/perfil_paraiba.md reports/inspecao/inventario.md
+          if git diff --cached --quiet; then
+            echo "Relatórios já atualizados."
+          else
+            git commit -m "docs: publica contagens verificadas do ENEM e Censo para a Paraíba"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
