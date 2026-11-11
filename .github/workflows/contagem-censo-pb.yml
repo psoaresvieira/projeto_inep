@@ -1,0 +1,99 @@
+name: Contagem do Censo Escolar na Paraíba
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/contagem-censo-pb.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  censo-paraiba:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Baixar somente Censo Escolar 2024
+        env:
+          INEP_PERMITIR_TLS_NAO_VERIFICADO: "1"
+        run: |
+          python - <<'PY'
+          import runpy
+          from pathlib import Path
+          m=runpy.run_path("src/00_baixar_bases.py", run_name="modulo_download")
+          Path("dados_brutos").mkdir(exist_ok=True)
+          fonte=next(x for x in m["ORIGENS"] if x[0]=="microdados_censo_escolar_2024.zip")
+          res=m["baixar"](*fonte)
+          print(res, flush=True)
+          if res["status"]!="baixado":
+              raise SystemExit("Não foi possível baixar o Censo 2024.")
+          PY
+      - name: Verificar integridade e calcular estatísticas agregadas
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import runpy, json, zipfile, hashlib, re
+          m=runpy.run_path("src/01_perfil_paraiba.py", run_name="modulo_perfil")
+          zip_path=Path("dados_brutos/microdados_censo_escolar_2024.zip")
+          with zipfile.ZipFile(zip_path) as z:
+              csvs=[x for x in z.namelist() if x.endswith("/dados/microdados_ed_basica_2024.csv")]
+              hashes=[x for x in z.namelist() if x.endswith("/dados/md5_microdados_ed_basica_2024.txt")]
+              if len(csvs)!=1 or len(hashes)!=1:
+                  raise SystemExit("Censo: CSV ou MD5 interno não encontrado.")
+              esperado=re.search(r"\b[a-fA-F0-9]{32}\b", z.read(hashes[0]).decode("latin-1"))
+              if not esperado:
+                  raise SystemExit("MD5 não encontrado na documentação do pacote.")
+              dig=hashlib.md5()
+              with z.open(csvs[0]) as f:
+                  for bloco in iter(lambda:f.read(1024*1024), b""):
+                      dig.update(bloco)
+              valido=dig.hexdigest().lower()==esperado.group(0).lower()
+              if not valido:
+                  raise SystemExit("Falha no checksum MD5 do CSV do Censo.")
+          result=m["censo"]()
+          result["checksum_csv_md5_valido"]=valido
+          out=Path("reports/inspecao")
+          out.mkdir(parents=True,exist_ok=True)
+          (out/"censo_pb_2024.json").write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
+          linhas=["# Censo Escolar 2024 — recorte da Paraíba","",
+                  "Contagens do CSV oficial extraído em streaming, sem publicar microdados individuais.","",
+                  "| Indicador | Quantidade |","|---|---:|"]
+          for key in ("registros_nacionais_escolas","escolas_PB","escolas_estaduais_PB",
+                      "escolas_estaduais_ensino_medio_PB","escolas_estaduais_EM_com_codigo",
+                      "municipios_estaduais_EM","matriculas_ensino_medio_somadas",
+                      "codigos_escola_repetidos_no_recorte"):
+              linhas.append(f"| {key} | {result.get(key)} |")
+          linhas+=["","Checksum MD5 do CSV validado contra arquivo interno do pacote.",
+                   "","## Infraestrutura no recorte","",
+                   "As frequências incluem categorias vazias. As interpretações dependem do dicionário oficial.",""]
+          for key,values in result["valores_infraestrutura"].items():
+              linhas += [f"- **{key}**: "+", ".join(f"{k}: {v}" for k,v in values.items())]
+          linhas += ["", "**Cautela:** os indicadores de infraestrutura são descritivos, e matrículas são contagens por escola.",
+                     "","Fonte: [Censo Escolar — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar)",""]
+          (out/"censo_pb_2024.md").write_text("\n".join(linhas),encoding="utf-8")
+          print(json.dumps(result,ensure_ascii=False,indent=2),flush=True)
+          PY
+      - name: Publicar apenas relatório agregado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/inspecao/censo_pb_2024.md
+          git commit -m "data: publica contagem agregada do Censo PB 2024"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Arquivar relatórios para conferência
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: censo-pb-2024
+          path: |
+            reports/inspecao/censo_pb_2024.md
+            reports/inspecao/censo_pb_2024.json
+          retention-days: 7
