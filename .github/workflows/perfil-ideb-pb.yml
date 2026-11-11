@@ -1,0 +1,79 @@
+name: Perfil IDEB 2025 — Escolas da Paraíba
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/perfil-ideb-pb.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  perfil-ideb:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Dependências
+        run: python -m pip install -r requirements.txt
+      - name: Conferir sintaxe
+        run: python -m py_compile src/01_perfil_ideb.py
+      - name: Baixar apenas IDEB 2025
+        env:
+          INEP_PERMITIR_TLS_NAO_VERIFICADO: "1"
+        run: |
+          python - <<'PY'
+          import runpy
+          from pathlib import Path
+          m=runpy.run_path("src/00_baixar_bases.py",run_name="modulo_download")
+          Path("dados_brutos").mkdir(exist_ok=True)
+          fonte=next(x for x in m["ORIGENS"] if x[0]=="divulgacao_ensino_medio_escolas_2025.zip")
+          resultado=m["baixar"](*fonte)
+          print(resultado,flush=True)
+          if resultado["status"]!="baixado":
+              raise SystemExit("Download IDEB 2025 não concluído.")
+          PY
+      - name: Validar MD5 do XLSX do pacote
+        run: |
+          python - <<'PY'
+          import re,hashlib,zipfile
+          from pathlib import Path
+          with zipfile.ZipFile(Path("dados_brutos/divulgacao_ensino_medio_escolas_2025.zip")) as z:
+              nomes=z.namelist()
+              xls=next(x for x in nomes if x.endswith("divulgacao_ensino_medio_escolas_2025.xlsx"))
+              md5=next(x for x in nomes if x.endswith("md5_divulgacao_ensino_medio_escolas_2025.txt"))
+              esperada=re.search(r"[a-fA-F0-9]{32}",z.read(md5).decode("latin-1"))
+              if not esperada: raise SystemExit("Hash de referência não encontrado.")
+              h=hashlib.md5()
+              with z.open(xls) as f:
+                  for bloco in iter(lambda:f.read(1024*1024),b""):
+                      h.update(bloco)
+              if h.hexdigest().lower()!=esperada.group(0).lower():
+                  raise SystemExit("MD5 do XLSX não coincide com a referência interna.")
+              print("Integridade do XLSX confirmada pelo MD5 interno.")
+          PY
+      - name: Avaliar registros IDEB 2025 na Paraíba
+        run: python -u src/01_perfil_ideb.py
+      - name: Publicar relatório agregado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/inspecao/ideb_pb_2025.md
+          git commit -m "data: publica perfil agregado do IDEB 2025 na PB"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Disponibilizar evidências da análise
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ideb-pb-2025
+          path: |
+            reports/inspecao/ideb_pb_2025.md
+            reports/inspecao/ideb_pb_2025.json
+          retention-days: 7
