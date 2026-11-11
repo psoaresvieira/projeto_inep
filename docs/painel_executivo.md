@@ -1,15 +1,16 @@
 # Painel executivo — educação estadual da Paraíba
 
-**Status:** versão preliminar reproduzível, gerada e testada em 11/11/2026.  
+**Status:** versão preliminar reproduzível, com painel geral e visão municipal validados em 11/11/2026.  
 **Formato:** HTML/CSS/JavaScript estático, sem conexão externa, construído somente com indicadores agregados validados.
 
 ## Como acessar
 
-Arquivo gerado: [dashboard/index.html](../dashboard/index.html).
+Painel geral: [dashboard/index.html](../dashboard/index.html).  
+**Painel por município:** [dashboard/municipios.html](../dashboard/municipios.html).
 
 Para **visualizar como página**, clone ou baixe o repositório e abra o arquivo `dashboard/index.html` no navegador. O GitHub normalmente mostra o conteúdo ou o arquivo, mas esta versão não foi publicada em um endereço GitHub Pages.
 
-Para **regerar o painel** a partir dos relatórios agregados oficiais:
+Para **regerar o painel geral** a partir dos relatórios agregados oficiais:
 
 ```bash
 python src/06_dashboard_agregado.py
@@ -58,3 +59,21 @@ O painel é **interativo apenas na navegação entre abas e no filtro de indicad
 2. Criar análises por município a partir da base escolar limpa, com denominadores válidos.
 3. Revisar supressão de grupos muito pequenos e riscos de reidentificação antes da divulgação de indicadores no nível da escola.
 4. Discutir com o grupo quais decisões do Governo do Estado o painel deve apoiar antes de considerar o dashboard finalizado.
+
+
+## Visão territorial (entrega adicional)
+
+A [página municipal](../dashboard/municipios.html) foi gerada a partir dos dados oficiais, após validar os totais estaduais e os códigos de município. Ela inclui busca por nome/código IBGE, ordenação e seleção de municípios, indicadores de infraestrutura (Censo 2024) e média simples de IDEB por escola (2025) somente quando houver pelo menos três notas válidas.
+
+- [Indicadores municipais agregados](../reports/municipios/municipios_agregados.json)
+- [Metodologia e totais](../reports/municipios/resumo_municipios.md)
+- [Código de produção dos agregados](../src/05_indicadores_municipais.py)
+- [Gerador da página](../src/06_dashboard_municipios.py)
+
+O agrupamento é por código do município, sem unir escolas de 2024 às de 2025. A média simples do IDEB não representa a nota oficial agregada da rede.
+
+Para reproduzir a página a partir do arquivo JSON publicado:
+
+```bash
+python src/06_dashboard_municipios.py
+```
