@@ -55,6 +55,10 @@ Relatórios: [Resultados preliminares](docs/resultados_preliminares.md), [Censo 
 
 Código e documentação de filtragem: [script](src/02_filtragem.py) e [critérios](docs/estrategia_filtragem.md). Os testes sintéticos dos filtros passaram no GitHub Actions. O fluxo de filtragem completa de 2024 está registrado na [Issue #2](../../issues/2); só serão publicados relatórios agregados.
 
-**Estado atual:** filtragem real 2024 executada; 456 escolas encontraram correspondência ENEM–Censo e 29.393 registros do ENEM foram pareados (98,69% dos registros do recorte). Ver [auditoria de chaves](reports/filtragem/validacao_chaves_2024.md) e [relatório de filtragem](reports/filtragem/resumo_2024.md). As Issues #3 e #4 possuem códigos e testes sintéticos aprovados; a execução de limpeza e integração nos dados reais permanece em andamento pelo [pipeline PB 2024](.github/workflows/pipeline-pb-2024.yml). As Issues continuam abertas enquanto houver validações pendentes.
+**Estado atual:** o [pipeline oficial PB 2024](.github/workflows/pipeline-pb-2024.yml) foi executado com sucesso, incluindo filtragem, auditoria de chaves, limpeza conservadora e integração escolar. Das 482 escolas do Censo, 456 possuem correspondência com o ENEM e 29.393 registros do ENEM foram pareados (98,69% dos registros selecionados). Ver [relatório de filtragem](reports/filtragem/resumo_2024.md), [auditoria das chaves](reports/filtragem/validacao_chaves_2024.md), [qualidade](reports/qualidade/qualidade_2024.md) e [integração](reports/integracao/integracao_2024.md).
+
+A [análise exploratória preliminar](reports/analise_exploratoria/analise_preliminar.md) já gera [gráficos](reports/figuras/) e pode ser reproduzida pelo [notebook acadêmico](notebooks/05_analise_exploratoria.ipynb). Não inclui microdados individuais versionados.
+
+**Bases de 2025:** confirmadas nas [páginas oficiais do INEP](docs/fontes_2025.md), com [fluxo de inspeção estrutural](.github/workflows/inspecao-2025.yml) iniciado. Os esquemas e campos de 2025 não devem ser presumidos iguais aos de 2024. As seis Issues permanecem abertas enquanto houver validações, análises e entregáveis finais pendentes.
 
 **Segurança:** os arquivos brutos, recortes individuais e resultados intermediários estão excluídos do versionamento. Não foram executadas junções por posição dos registros ENEM.
