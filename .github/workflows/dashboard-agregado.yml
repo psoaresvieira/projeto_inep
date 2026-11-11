@@ -1,0 +1,45 @@
+name: Painel executivo agregado — Paraiba
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/dashboard-agregado.yml"
+      - "src/06_dashboard_agregado.py"
+
+permissions:
+  contents: write
+
+jobs:
+  dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verificar scripts
+        run: python -m compileall -q src tests
+      - name: Executar testes com agregados do INEP
+        run: python -m unittest discover -s tests -v
+      - name: Construir painel executivo
+        run: python src/06_dashboard_agregado.py
+      - name: Verificar painel gerado
+        run: |
+          test -s dashboard/index.html
+          grep -q "482" dashboard/index.html
+          grep -q "29.393" dashboard/index.html
+      - name: Publicar painel HTML
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f dashboard/index.html
+          if git diff --cached --quiet; then
+            echo "Painel sem alterações."
+          else
+            git commit -m "docs: publica painel executivo agregado INEP PB"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
