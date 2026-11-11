@@ -1,0 +1,85 @@
+name: Filtragem e validação de chaves ENEM-Censo PB 2024
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/filtragem-enem-censo-pb.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  recortes-paraiba:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Conferir sintaxe e filtros
+        run: |
+          python -m py_compile src/02_filtragem.py src/02_validar_chaves.py
+          python -m unittest discover -s tests -v
+      - name: Baixar ENEM e Censo 2024 oficiais
+        env:
+          INEP_PERMITIR_TLS_NAO_VERIFICADO: "1"
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import runpy, zipfile
+          m=runpy.run_path("src/00_baixar_bases.py",run_name="modulo_download")
+          Path("dados_brutos").mkdir(exist_ok=True)
+          for nome in ("microdados_enem_2024.zip","microdados_censo_escolar_2024.zip"):
+              fonte=next(x for x in m["ORIGENS"] if x[0]==nome)
+              result=m["baixar"](*fonte)
+              print(result,flush=True)
+              if result["status"]!="baixado":
+                  raise SystemExit(f"Download falhou: {nome}")
+              if not zipfile.is_zipfile("dados_brutos/"+nome):
+                  raise SystemExit(f"Arquivo não é ZIP válido: {nome}")
+          PY
+      - name: Filtrar bases de 2024 para a Paraíba
+        run: python -u src/02_filtragem.py
+      - name: Validar cobertura e cardinalidade de chaves escolares
+        run: |
+          python -u src/02_validar_chaves.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          folder=Path("reports/filtragem")
+          resumo=json.loads((folder/"resumo_2024.json").read_text(encoding="utf-8"))
+          if resumo["erros"]:
+              raise SystemExit(str(resumo["erros"]))
+          bases={x["dataset"]: x for x in resumo["bases"]}
+          if len(bases)!=3 or any(x["registros_selecionados"]<1 for x in bases.values()):
+              raise SystemExit("Bases ou recortes esperados não foram obtidos.")
+          keys=json.loads((folder/"validacao_chaves_2024.json").read_text(encoding="utf-8"))
+          if keys["codigos_censo_duplicados"]:
+              raise SystemExit("Há códigos de escolas duplicados no Censo.")
+          if keys["escolas_em_ambas_as_bases"] < 1:
+              raise SystemExit("Nenhuma escola em comum encontrada, verificar chaves.")
+          print("Recortes e chaves preliminares conferidos.")
+          PY
+      - name: Publicar relatórios sem registros individuais
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/filtragem/resumo_2024.md reports/filtragem/validacao_chaves_2024.md
+          git commit -m "data: publica recortes e cobertura das chaves ENEM Censo 2024"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Arquivar relatórios de auditoria
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-recortes-PB-2024
+          path: |
+            reports/filtragem/resumo_2024.md
+            reports/filtragem/validacao_chaves_2024.md
+            reports/filtragem/resumo_2024.json
+            reports/filtragem/validacao_chaves_2024.json
+          retention-days: 7
