@@ -1,0 +1,27 @@
+name: Testar scripts e filtros de dados
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "src/02_filtragem.py"
+      - "tests/**"
+      - ".github/workflows/testes-python.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verificar sintaxe
+        run: python -m compileall -q src tests
+      - name: Executar testes sintéticos
+        run: python -m unittest discover -s tests -v
