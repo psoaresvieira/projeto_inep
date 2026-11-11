@@ -6,6 +6,8 @@ Projeto acadêmico de Análise de Dados, voltado à qualidade do ensino médio p
 
 Framework **D.E.I.L.A.S.**: Definir objetivos, Escolher métricas, Identificar fontes, Limpar dados, Analisar e Sugerir decisões.
 
+A [documentação metodológica D.E.I.L.A.S.](docs/metodologia_DEILAS.md) registra objetivos, métricas, fontes, métodos, resultados verificados e propostas preliminares.
+
 O desenvolvimento está dividido em seis [Issues](../../issues):
 1. Inspeção e catalogação dos datasets;
 2. Filtragem da Paraíba e seleção de variáveis;
@@ -53,6 +55,6 @@ Relatórios: [Resultados preliminares](docs/resultados_preliminares.md), [Censo 
 
 Código e documentação de filtragem: [script](src/02_filtragem.py) e [critérios](docs/estrategia_filtragem.md). Os testes sintéticos dos filtros passaram no GitHub Actions. O fluxo de filtragem completa de 2024 está registrado na [Issue #2](../../issues/2); só serão publicados relatórios agregados.
 
-**Estado atual:** Issue #1 com contagens nacionais e estaduais processadas; a validação de dicionários e relacionamentos ainda está aberta. Issue #2 com script e testes preparados, mas filtragem real ainda não concluída.
+**Estado atual:** filtragem real 2024 executada; 456 escolas encontraram correspondência ENEM–Censo e 29.393 registros do ENEM foram pareados (98,69% dos registros do recorte). Ver [auditoria de chaves](reports/filtragem/validacao_chaves_2024.md) e [relatório de filtragem](reports/filtragem/resumo_2024.md). As Issues #3 e #4 possuem códigos e testes sintéticos aprovados; a execução de limpeza e integração nos dados reais permanece em andamento pelo [pipeline PB 2024](.github/workflows/pipeline-pb-2024.yml). As Issues continuam abertas enquanto houver validações pendentes.
 
 **Segurança:** os arquivos brutos, recortes individuais e resultados intermediários estão excluídos do versionamento. Não foram executadas junções por posição dos registros ENEM.
