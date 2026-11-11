@@ -8,7 +8,7 @@ dados_integrados/
 *.parquet
 
 # Resultados intermediários e caches
-reports/inspecao/inventario.json
+reports/inspecao/*.json
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
