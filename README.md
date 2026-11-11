@@ -61,6 +61,18 @@ A [análise exploratória preliminar](reports/analise_exploratoria/analise_preli
 
 O [painel executivo HTML](dashboard/index.html) foi gerado e testado a partir de indicadores agregados. Para visualizar a interface, baixe o projeto e abra `dashboard/index.html` no navegador, conforme [instruções](docs/painel_executivo.md). Ainda não foi publicado como site.
 
-**Bases de 2025:** confirmadas nas [páginas oficiais do INEP](docs/fontes_2025.md), com [fluxo de inspeção estrutural](.github/workflows/inspecao-2025.yml) iniciado. Os esquemas e campos de 2025 não devem ser presumidos iguais aos de 2024. As seis Issues permanecem abertas enquanto houver validações, análises e entregáveis finais pendentes.
+## Análise territorial por município
+
+A [visão municipal do dashboard](dashboard/municipios.html) permite buscar os 223 municípios da Paraíba, ordenar por escolas ou matrículas, examinar infraestrutura declarada no Censo Escolar 2024 e consultar o IDEB 2025 separadamente. As informações são calculadas a partir dos ZIPs oficiais; foram validadas as contagens de **482 escolas estaduais com EM (2024), 116.779 matrículas e 458 escolas com IDEB 2025 válido**.
+
+Arquivos reprodutíveis:
+- [Indicadores agregados por município](reports/municipios/municipios_agregados.json)
+- [Relatório metodológico da visão territorial](reports/municipios/resumo_municipios.md)
+- [Script de agregação](src/05_indicadores_municipais.py)
+- [Gerador do painel municipal](src/06_dashboard_municipios.py)
+
+**Cautela:** bases de 2024 e 2025 são de anos diferentes e não foram unidas por escola. Médias de IDEB municipais com menos de três notas válidas são ocultadas; as demais são médias simples de escolas, não índices oficiais agregados.
+
+**Bases de 2025:** confirmadas nas [páginas oficiais do INEP](docs/fontes_2025.md), com [inspeção estrutural](reports/inspecao_2025/inventario.md) concluída. O ENEM 2025 possui um membro com método de compressão ainda não suportado pelo leitor atual; seus resultados não foram analisados. O Censo 2025 possui nova estrutura de tabelas. As seis Issues permanecem abertas enquanto houver validações, análises e entregáveis finais pendentes.
 
 **Segurança:** os arquivos brutos, recortes individuais e resultados intermediários estão excluídos do versionamento. Não foram executadas junções por posição dos registros ENEM.
