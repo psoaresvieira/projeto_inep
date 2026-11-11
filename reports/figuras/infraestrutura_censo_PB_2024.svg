@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="566" viewBox="0 0 1000 566">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="35" y="43" font-size="23" font-family="Arial,sans-serif" font-weight="bold" fill="#1e293b">Infraestrutura escolar — PB, Censo 2024</text>
+<text x="35" y="71" font-size="14" font-family="Arial,sans-serif" fill="#475569">Escolas estaduais com ensino médio (n=482); percentual de escolas com valor 1</text>
+<text x="35" y="125" font-size="15" font-family="Arial,sans-serif" fill="#0f172a">Internet</text>
+<rect x="320" y="107" width="480" height="22" rx="4" fill="#e2e8f0"/>
+<rect x="320" y="107" width="457.10" height="22" rx="4" fill="#334155"/>
+<text x="821" y="125" font-size="14" font-family="Arial,sans-serif" fill="#334155">95.2% (459/482)</text>
+<text x="35" y="181" font-size="15" font-family="Arial,sans-serif" fill="#0f172a">Biblioteca</text>
+<rect x="320" y="163" width="480" height="22" rx="4" fill="#e2e8f0"/>
+<rect x="320" y="163" width="356.50" height="22" rx="4" fill="#334155"/>
+<text x="821" y="181" font-size="14" font-family="Arial,sans-serif" fill="#334155">74.3% (358/482)</text>
+<text x="35" y="237" font-size="15" font-family="Arial,sans-serif" fill="#0f172a">Laboratório de informática</text>
+<rect x="320" y="219" width="480" height="22" rx="4" fill="#e2e8f0"/>
+<rect x="320" y="219" width="282.82" height="22" rx="4" fill="#334155"/>
+<text x="821" y="237" font-size="14" font-family="Arial,sans-serif" fill="#334155">58.9% (284/482)</text>
+<text x="35" y="293" font-size="15" font-family="Arial,sans-serif" fill="#0f172a">Quadra de esportes</text>
+<rect x="320" y="275" width="480" height="22" rx="4" fill="#e2e8f0"/>
+<rect x="320" y="275" width="246.96" height="22" rx="4" fill="#334155"/>
+<text x="821" y="293" font-size="14" font-family="Arial,sans-serif" fill="#334155">51.5% (248/482)</text>
+<text x="35" y="349" font-size="15" font-family="Arial,sans-serif" fill="#0f172a">Laboratório de ciências</text>
+<rect x="320" y="331" width="480" height="22" rx="4" fill="#e2e8f0"/>
+<rect x="320" y="331" width="232.03" height="22" rx="4" fill="#334155"/>
+<text x="821" y="349" font-size="14" font-family="Arial,sans-serif" fill="#334155">48.3% (233/482)</text>
+<text x="35" y="405" font-size="15" font-family="Arial,sans-serif" fill="#0f172a">Banda larga</text>
+<rect x="320" y="387" width="480" height="22" rx="4" fill="#e2e8f0"/>
+<rect x="320" y="387" width="138.43" height="22" rx="4" fill="#334155"/>
+<text x="821" y="405" font-size="14" font-family="Arial,sans-serif" fill="#334155">28.8% (139/482)</text>
+<text x="35" y="461" font-size="15" font-family="Arial,sans-serif" fill="#0f172a">Sala de leitura</text>
+<rect x="320" y="443" width="480" height="22" rx="4" fill="#e2e8f0"/>
+<rect x="320" y="443" width="37.82" height="22" rx="4" fill="#334155"/>
+<text x="821" y="461" font-size="14" font-family="Arial,sans-serif" fill="#334155">7.9% (38/482)</text>
+<text x="35" y="544" font-size="12" font-family="Arial,sans-serif" fill="#64748b">Fonte: INEP. Elaboração própria com as contagens agregadas verificadas.</text>
+</svg>
