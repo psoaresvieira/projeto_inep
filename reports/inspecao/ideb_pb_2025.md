@@ -12,17 +12,17 @@ Recorte da planilha oficial de ensino médio por escola. Valores ausentes não f
 
 ## IDEB 2025
 
-Coluna selecionada: \`None\`.
-Campos candidatos: 
+Coluna selecionada: \`VL_OBSERVADO_2025\`.
+Campos candidatos: VL_OBSERVADO_2025
 
 | Métrica | Valor |
 |---|---:|
-| quantidade_com_IDEB_2025_valido | 0 |
-| quantidade_sem_IDEB_2025_valido | 478 |
-| media_simples_escolas_com_nota | None |
-| mediana_escolas_com_nota | None |
-| minimo | None |
-| maximo | None |
+| quantidade_com_IDEB_2025_valido | 458 |
+| quantidade_sem_IDEB_2025_valido | 20 |
+| media_simples_escolas_com_nota | 4.267 |
+| mediana_escolas_com_nota | 4.3 |
+| minimo | 2.7 |
+| maximo | 5.8 |
 
 ## Dicionário técnico da planilha
 
@@ -94,7 +94,9 @@ Campos com 2025 no cabeçalho: VL_APROVACAO_2025_SI_4, VL_APROVACAO_2025_1, VL_A
 ## Valores ausentes ou não numéricos
 
 ~~~json
-{}
+{
+  "-": 20
+}
 ~~~
 
 **Limitações:** a média simples não substitui o IDEB oficial da rede. A planilha de 2025 e o Censo 2024 referem-se a anos distintos e não devem ser tratados como mesmo período.
