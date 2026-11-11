@@ -7,6 +7,8 @@ Os arquivos originais enviados na conversa não são usados neste script.
 from __future__ import annotations
 
 import json
+import os
+import ssl
 import sys
 import time
 import urllib.request
@@ -32,13 +34,24 @@ def baixar(nome: str, url: str, bytes_anexo: int) -> dict:
         "status": "falhou",
     }
     arquivo = DESTINO / nome
+    info["verificacao_tls"] = "habilitada"
     for tentativa in range(1, 4):
         temporario = arquivo.with_name(arquivo.name + ".part")
         try:
             pedido = urllib.request.Request(
                 url, headers={"User-Agent": "INEP-Paraiba-Projeto-Academico/1.0"}
             )
-            with urllib.request.urlopen(pedido, timeout=90) as resposta, temporario.open("wb") as saida:
+            try:
+                resposta = urllib.request.urlopen(pedido, timeout=90)
+            except urllib.error.URLError as erro:
+                certificado = isinstance(getattr(erro, "reason", None), ssl.SSLCertVerificationError)
+                permitir = os.environ.get("INEP_PERMITIR_TLS_NAO_VERIFICADO") == "1"
+                if not (certificado and permitir and url.startswith("https://download.inep.gov.br/")):
+                    raise
+                print("AVISO: certificado TLS indisponível; fallback sem verificação para domínio oficial do INEP.", file=sys.stderr)
+                info["verificacao_tls"] = "DESABILITADA - confirmar origem/integridade externamente"
+                resposta = urllib.request.urlopen(pedido, timeout=90, context=ssl._create_unverified_context())
+            with resposta, temporario.open("wb") as saida:
                 while True:
                     bloco = resposta.read(4 * 1024 * 1024)
                     if not bloco:
