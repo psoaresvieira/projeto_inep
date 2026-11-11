@@ -1,5 +1,6 @@
 # Arquivos brutos e recortes volumosos (mantidos fora do Git)
 dados_brutos/
+dados_filtrados/
 dados_limpos/
 dados_integrados/
 *.zip
@@ -9,6 +10,7 @@ dados_integrados/
 
 # Resultados intermediários e caches
 reports/inspecao/*.json
+reports/filtragem/*.json
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
