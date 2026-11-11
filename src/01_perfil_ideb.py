@@ -119,6 +119,8 @@ def analisar():
             "duplicidade_codigo_escola_estadual": duplicados,
             "redes_no_recorte_PB": dict(redes_pb),
             "colunas_IDEB_2025_candidatas": candidatos,
+            "cabecalho_tecnico_completo": [{"coluna": i + 1, "campo": v} for i, v in enumerate(header)],
+            "campos_com_2025": [v for v in header if "2025" in v],
             "coluna_nota_usada": nome_ideb, "resumo_ideb_2025": stats,
             "motivos_nota_invalida": dict(invalidos),
             "aviso": "A média é não ponderada e inclui apenas escolas com IDEB válido; não representa IDEB oficial da rede estadual. Valores '-' e vazios não são nota zero.",
@@ -149,6 +151,11 @@ def main():
                    "", "| Métrica | Valor |", "|---|---:|"])
     for k, v in result["resumo_ideb_2025"].items():
         linhas.append(f"| {k} | {v} |")
+    linhas += ["", "## Dicionário técnico da planilha", "",
+               "Campos com 2025 no cabeçalho: " + ", ".join(result["campos_com_2025"]),
+               "", "| Coluna Excel | Campo técnico |", "|---:|---|"]
+    for x in result["cabecalho_tecnico_completo"]:
+        linhas.append(f"| {x['coluna']} | `{x['campo']}` |")
     linhas += ["", "## Valores ausentes ou não numéricos", "", "~~~json",
                json.dumps(result["motivos_nota_invalida"], indent=2, ensure_ascii=False),
                "~~~", "", "**Limitações:** a média simples não substitui o IDEB oficial da rede. "
