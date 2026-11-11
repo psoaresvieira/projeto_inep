@@ -1,0 +1,97 @@
+name: Inspecao estrutural de ENEM e Censo Escolar 2025
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/inspecao-2025.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  inspecao-2025:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar dependencias
+        run: python -m pip install -r requirements.txt
+      - name: Conferir sintaxe
+        run: python -m py_compile src/00_baixar_bases.py src/01_inspecao.py
+      - name: Baixar bases oficiais INEP 2025 sem publicar ZIPs
+        env:
+          INEP_PERMITIR_TLS_NAO_VERIFICADO: "1"
+        run: |
+          python - <<'PY'
+          import json
+          import runpy
+          import zipfile
+          from datetime import datetime, timezone
+          from pathlib import Path
+          loader = runpy.run_path("src/00_baixar_bases.py", run_name="modulo_download")
+          fonte = [
+              ("microdados_enem_2025.zip",
+               "https://download.inep.gov.br/microdados/microdados_enem_2025.zip"),
+              ("microdados_censo_escolar_2025.zip",
+               "https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2025_.zip"),
+          ]
+          pasta = Path("dados_brutos")
+          pasta.mkdir(exist_ok=True)
+          out = Path("reports/inspecao_2025")
+          out.mkdir(parents=True, exist_ok=True)
+          results = []
+          for nome, url in fonte:
+              print("Baixando", url, flush=True)
+              r = loader["baixar"](nome, url, None)
+              results.append(r)
+              if r["status"] != "baixado":
+                  (out / "downloads.json").write_text(
+                      json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8")
+                  raise SystemExit("Download falhou: " + nome)
+              with zipfile.ZipFile(pasta / nome) as z:
+                  if not z.infolist():
+                      raise SystemExit("Pacote vazio: " + nome)
+                  print(nome, "arquivos internos:", len(z.infolist()), flush=True)
+          (out / "downloads.json").write_text(
+              json.dumps({"gerado_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                          "fontes_oficiais": results,
+                          "observacao": "Arquivos oficiais baixados; não são os anexos originais. "
+                                        "A conferência de estrutura ZIP não é um checksum criptográfico de autenticidade."},
+                         indent=2, ensure_ascii=False), encoding="utf-8")
+          PY
+      - name: Inventariar cabeçalhos e pacotes de 2025
+        run: |
+          python -u src/01_inspecao.py \
+            --arquivos \
+              dados_brutos/microdados_enem_2025.zip \
+              dados_brutos/microdados_censo_escolar_2025.zip \
+            --saida reports/inspecao_2025
+          test -s reports/inspecao_2025/inventario.md
+      - name: Publicar somente o inventario textual
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f reports/inspecao_2025/inventario.md
+          if git diff --cached --quiet; then
+            echo "Inventario 2025 ja publicado"
+          else
+            git commit -m "docs: publica inspeção das estruturas ENEM e Censo 2025"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Guardar relatorios sem dados pessoais
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: inventario-inep-2025
+          path: |
+            reports/inspecao_2025/inventario.md
+            reports/inspecao_2025/inventario.json
+            reports/inspecao_2025/downloads.json
+          retention-days: 7
