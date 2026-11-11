@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - ".github/workflows/perfil-ideb-pb.yml"
+      - "src/01_perfil_ideb.py"
 
 permissions:
   contents: write
