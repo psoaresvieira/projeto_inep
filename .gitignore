@@ -11,6 +11,8 @@ dados_integrados/
 # Resultados intermediários e caches
 reports/inspecao/*.json
 reports/filtragem/*.json
+reports/qualidade/*.json
+reports/integracao/*.json
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
