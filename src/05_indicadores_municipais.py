@@ -60,7 +60,7 @@ def ler_censo(pasta=BASE):
         if len(members) != 1:
             raise ValueError("Arquivo principal Censo 2024 não localizado")
         with z.open(members[0]) as raw:
-            with io.TextIOWrapper(raw, encoding="utf-8-sig", newline="") as file:
+            with io.TextIOWrapper(raw, encoding="latin-1", newline="") as file:
                 reader = csv.DictReader(file, delimiter=";")
                 expected = {"NU_ANO_CENSO", "SG_UF", "TP_DEPENDENCIA", "CO_ENTIDADE",
                             "CO_MUNICIPIO", "NO_MUNICIPIO", "IN_MED", "QT_MAT_MED", *INFRA}
