@@ -1,0 +1,18 @@
+# Arquivos brutos e recortes volumosos (mantidos fora do Git)
+dados_brutos/
+dados_limpos/
+dados_integrados/
+*.zip
+*.7z
+*.rar
+*.parquet
+
+# Resultados intermediários e caches
+reports/inspecao/inventario.json
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+.DS_Store
