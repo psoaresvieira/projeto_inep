@@ -59,6 +59,8 @@ Código e documentação de filtragem: [script](src/02_filtragem.py) e [critéri
 
 A [análise exploratória preliminar](reports/analise_exploratoria/analise_preliminar.md) já gera [gráficos](reports/figuras/) e pode ser reproduzida pelo [notebook acadêmico](notebooks/05_analise_exploratoria.ipynb). Não inclui microdados individuais versionados.
 
+O [painel executivo HTML](dashboard/index.html) foi gerado e testado a partir de indicadores agregados. Para visualizar a interface, baixe o projeto e abra `dashboard/index.html` no navegador, conforme [instruções](docs/painel_executivo.md). Ainda não foi publicado como site.
+
 **Bases de 2025:** confirmadas nas [páginas oficiais do INEP](docs/fontes_2025.md), com [fluxo de inspeção estrutural](.github/workflows/inspecao-2025.yml) iniciado. Os esquemas e campos de 2025 não devem ser presumidos iguais aos de 2024. As seis Issues permanecem abertas enquanto houver validações, análises e entregáveis finais pendentes.
 
 **Segurança:** os arquivos brutos, recortes individuais e resultados intermediários estão excluídos do versionamento. Não foram executadas junções por posição dos registros ENEM.
