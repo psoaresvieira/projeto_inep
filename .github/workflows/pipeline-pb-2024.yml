@@ -1,0 +1,119 @@
+name: Pipeline completo PB 2024 — Filtragem, Limpeza e Integração
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/pipeline-pb-2024.yml"
+
+concurrency:
+  group: dados-pb-2024-pipeline
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validar sintaxe e executar testes fictícios
+        run: |
+          python -m compileall -q src tests
+          python -m unittest discover -s tests -v
+      - name: Baixar ENEM e Censo Escolar 2024 do INEP
+        env:
+          INEP_PERMITIR_TLS_NAO_VERIFICADO: "1"
+        run: |
+          python - <<'PY'
+          import runpy
+          from pathlib import Path
+          import zipfile
+          m=runpy.run_path("src/00_baixar_bases.py", run_name="modulo")
+          Path("dados_brutos").mkdir(exist_ok=True)
+          for nome in ("microdados_enem_2024.zip", "microdados_censo_escolar_2024.zip"):
+              fonte=next(x for x in m["ORIGENS"] if x[0]==nome)
+              d=m["baixar"](*fonte)
+              print(nome, d["status"], d.get("tamanho_coincide_com_anexo"), flush=True)
+              if d["status"]!="baixado" or d.get("tamanho_coincide_com_anexo") is not True:
+                  raise SystemExit(f"Download ou tamanho incompatível: {nome}")
+              if not zipfile.is_zipfile(Path("dados_brutos")/nome):
+                  raise SystemExit(f"ZIP inválido: {nome}")
+          PY
+      - name: Filtrar arquivos oficiais para recortes PB
+        run: python -u src/02_filtragem.py
+      - name: Auditar chaves e cobertura ENEM Censo
+        run: python -u src/02_validar_chaves.py
+      - name: Limpar recortes com regras conservadoras
+        run: python -u src/03_limpeza.py
+      - name: Construir base escolar com validação de auditoria
+        run: python -u src/04_integracao.py
+      - name: Revisar resumos gerados antes de publicar
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          required=[
+              Path("reports/filtragem/resumo_2024.json"),
+              Path("reports/filtragem/validacao_chaves_2024.json"),
+              Path("reports/qualidade/qualidade_2024.json"),
+              Path("reports/integracao/integracao_2024.json"),
+          ]
+          for path in required:
+              if not path.is_file():
+                  raise SystemExit("Relatório ausente: "+str(path))
+          f=json.loads(required[0].read_text(encoding="utf-8"))
+          q=json.loads(required[2].read_text(encoding="utf-8"))
+          i=json.loads(required[3].read_text(encoding="utf-8"))
+          if f["erros"] or q["falhas"]:
+              raise SystemExit("Falha em filtragem ou limpeza")
+          if i["escolas_censo"] < 1 or i["escolas_com_correspondencia"] < 1:
+              raise SystemExit("Nenhuma escola pareada; investigar chaves")
+          orig={x["dataset"]:x["registros_selecionados"] for x in f["bases"]}
+          for tipo,base in (
+              ("enem","enem_escola_estadual_PB_2024"),
+              ("censo","censo_escolas_estaduais_EM_PB_2024"),
+              ("participantes","enem_local_prova_PB_2024"),
+          ):
+              if q["bases"][tipo]["registros"] != orig[base]:
+                  raise SystemExit("Contagem alterada indevidamente: "+tipo)
+          if i["escolas_censo"] != q["bases"]["censo"]["registros"]:
+              raise SystemExit("Integração alterou número de escolas do Censo")
+          print("Validações concluídas: contagens preservadas e escolas pareadas.")
+          PY
+      - name: Publicar somente relatórios agregados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f \
+            reports/filtragem/resumo_2024.md \
+            reports/filtragem/validacao_chaves_2024.md \
+            reports/qualidade/qualidade_2024.md \
+            reports/integracao/integracao_2024.md
+          if git diff --cached --quiet; then
+            echo "Sem alterações nos relatórios."
+          else
+            git commit -m "data: publica filtragem, limpeza e integração PB 2024"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Arquivar apenas diagnósticos agregados
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorios-pipeline-pb-2024
+          path: |
+            reports/filtragem/*.md
+            reports/filtragem/*.json
+            reports/qualidade/*.md
+            reports/qualidade/*.json
+            reports/integracao/*.md
+            reports/integracao/*.json
+          retention-days: 7
