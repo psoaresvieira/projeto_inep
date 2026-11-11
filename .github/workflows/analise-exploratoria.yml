@@ -1,0 +1,43 @@
+name: Analise exploratoria agregada PB — relatorio e figuras
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/analise-exploratoria.yml"
+      - "src/05_exploracao_preliminar.py"
+
+permissions:
+  contents: write
+
+jobs:
+  eda:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validar sintaxe
+        run: python -m py_compile src/05_exploracao_preliminar.py
+      - name: Produzir relatorio e figuras com contagens verificadas
+        run: python src/05_exploracao_preliminar.py
+      - name: Testar resultados e denominadores
+        run: python -m unittest discover -s tests -v
+      - name: Publicar relatorio e figuras SVG
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f \
+            reports/analise_exploratoria/analise_preliminar.md \
+            reports/figuras/infraestrutura_censo_PB_2024.svg \
+            reports/figuras/cobertura_chaves_PB_2024.svg
+          if git diff --cached --quiet; then
+            echo "Relatorios ja atualizados"
+          else
+            git commit -m "docs: gera EDA preliminar e graficos com indicadores agregados"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
