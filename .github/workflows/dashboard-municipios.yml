@@ -5,6 +5,8 @@ on:
   push:
     paths:
       - ".github/workflows/dashboard-municipios.yml"
+      - "src/05_indicadores_municipais.py"
+      - "src/06_dashboard_municipios.py"
 
 permissions:
   contents: write
