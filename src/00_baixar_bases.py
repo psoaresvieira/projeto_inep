@@ -25,7 +25,7 @@ DESTINO = Path("dados_brutos")
 RELATORIOS = Path("reports/inspecao")
 
 
-def baixar(nome: str, url: str, bytes_anexo: int) -> dict:
+def baixar(nome: str, url: str, bytes_anexo: int | None) -> dict:
     info: dict = {
         "nome": nome,
         "url_oficial": url,
@@ -59,7 +59,7 @@ def baixar(nome: str, url: str, bytes_anexo: int) -> dict:
                     saida.write(bloco)
             temporario.replace(arquivo)
             info["tamanho_baixado_bytes"] = arquivo.stat().st_size
-            info["tamanho_coincide_com_anexo"] = arquivo.stat().st_size == bytes_anexo
+            info["tamanho_coincide_com_anexo"] = (arquivo.stat().st_size == bytes_anexo) if bytes_anexo is not None else None
             info["estrutura_zip_valida"] = zipfile.is_zipfile(arquivo)
             if not info["estrutura_zip_valida"]:
                 raise ValueError("Conteúdo não é ZIP válido")
