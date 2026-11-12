@@ -6,7 +6,7 @@
 **Público-alvo:** Governo do Estado da Paraíba  
 **Equipe:** Pedro Alexandre; Pedro Henrique Faustino; Maria Vitória Espínola Carneiro  
 **Data de atualização:** 12 de novembro de 2026  
-**Status:** análise de 2024 executada; dashboards HTML preliminares implementados; cinco páginas do Power BI propostas; tratamento integral dos dados de 2025 e relatório conclusivo pendentes.
+**Status:** preparação, auditoria e análise exploratória de 2024 executadas; estrutura de cinco dashboards Power BI definida, com implementação do arquivo PBIX ainda pendente; processamento completo de 2025 e relatório conclusivo também pendentes.
 
 > **Síntese executiva.** O projeto integra, de maneira auditável e metodologicamente cautelosa, indicadores oficiais de aprendizagem, infraestrutura e oferta do ensino médio público da Paraíba. Sua finalidade é identificar diferenças entre escolas e municípios e oferecer evidências para a avaliação de políticas educacionais — sem confundir associação com causalidade ou resultados amostrais com toda a rede estadual.
 
@@ -67,7 +67,6 @@ A implementação ocorre iterativamente: novas fontes ou problemas de qualidade 
 | **Jupyter Notebook / Google Colab** | Exploração e reprodutibilidade acadêmica. | Notebook exploratório inicial disponível. |
 | **Power BI Desktop** | Relatório definitivo com cinco páginas, segmentadores e medidas. | **Proposto; arquivo PBIX ainda não implementado.** |
 | **Git e GitHub** | Versionamento, Issues, execução automatizada e publicação de documentação. | Utilizados no desenvolvimento. |
-| **HTML/CSS/JavaScript** | Protótipos executáveis de painel geral e visão municipal. | Protótipos preliminares criados; não equivalem ao PBIX final. |
 
 ## 3.2. Fluxo de dados proposto
 
@@ -96,10 +95,28 @@ Os relacionamentos devem ser testados quanto à unicidade das dimensões, cardin
 | F04 | **Taxas de rendimento** | Aprovação, reprovação e abandono. | 2024/2025 | **Prevista; indicadores ainda não incorporados à base analítica.** |
 | F05 | **SAEB** | Dados complementares sobre aprendizagem e contexto. | 2023, conforme escopo | **Complementar; ainda não integrado.** |
 
-**Fontes oficiais:**  
-ENEM: https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem  
-Censo Escolar: https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar  
-IDEB: https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb
+## 4.1. Links oficiais das bases efetivamente utilizadas
+
+As bases são disponibilizadas pelo **Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP)**. Os links abaixo permitem localizar a documentação e baixar os pacotes nacionais originais; os filtros para a Paraíba são realizados posteriormente em Python.
+
+| Base e edição | Página oficial para consulta e dicionário | Arquivo utilizado no processamento |
+|---|---|---|
+| **ENEM 2024** | [Microdados ENEM — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem) | [Baixar microdados ENEM 2024 (.zip)](https://download.inep.gov.br/microdados/microdados_enem_2024.zip) |
+| **Censo Escolar 2024** | [Microdados Censo Escolar — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar) | [Baixar microdados Censo Escolar 2024 (.zip)](https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2024.zip) |
+| **IDEB 2025 — ensino médio, escolas** | [Resultados IDEB — INEP](https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb/resultados) | [Baixar planilha escolar IDEB 2025 (.zip)](https://download.inep.gov.br/ideb/resultados/divulgacao_ensino_medio_escolas_2025.zip) |
+
+Os três pacotes acima são os que fundamentam as contagens e as análises preliminares de 2024/2025 apresentadas neste documento. O tratamento dos registros e a rastreabilidade das fontes estão descritos no [repositório do projeto](https://github.com/psoaresvieira/projeto_inep).
+
+## 4.2. Fontes disponíveis ou previstas para ampliação da análise
+
+| Base e edição | Fonte oficial | Situação |
+|---|---|---|
+| **ENEM 2025** | [Página oficial](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem) · [Baixar microdados 2025 (.zip)](https://download.inep.gov.br/microdados/microdados_enem_2025.zip) | Pacote inspecionado; os resultados ainda requerem leitura compatível e validação. |
+| **Censo Escolar 2025** | [Página oficial](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar) · [Baixar microdados 2025 (.zip)](https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2025_.zip) | Estrutura inspecionada; integração e análise ainda pendentes. |
+| **Taxas de rendimento 2024/2025** | [Taxas de Rendimento Escolar — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/indicadores-educacionais/taxas-de-rendimento-escolar) | Fonte identificada; taxas de aprovação, reprovação e abandono ainda não incorporadas ao projeto. |
+| **SAEB 2023** | [Microdados SAEB — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/saeb) | Fonte complementar ainda não integrada. |
+
+**Importante:** um link disponível não significa que a base foi processada. Somente os dados efetivamente conferidos podem fundamentar gráficos, indicadores e conclusões. A documentação oficial de cada edição deve ser consultada para os critérios de recorte, variáveis e limitações.
 
 A disponibilidade de um pacote não significa que seus registros já tenham sido analisados. Os dados de 2025 precisam passar por inspeção detalhada, adaptação e validação antes de qualquer comparação temporal.
 
@@ -172,7 +189,7 @@ O Censo Escolar 2025 exigirá adaptação à sua estrutura própria. IDEB, rendi
 
 # 7. Estrutura funcional do relatório Power BI — Cinco dashboards
 
-**Solução proposta:** um único arquivo **.pbix** com cinco páginas interligadas, menu lateral, identidade visual consistente, filtros pertinentes e opção de detalhamento. Os protótipos HTML existentes servem de referência, mas **o relatório definitivo em Power BI ainda não foi produzido**.
+**Solução proposta:** um único arquivo **.pbix** com cinco páginas interligadas, menu lateral, identidade visual consistente, filtros pertinentes e opção de detalhamento. **O relatório definitivo em Power BI ainda não foi produzido.**
 
 ## 7.1. Dashboard 1 — Visão Executiva
 
@@ -204,7 +221,7 @@ O Censo Escolar 2025 exigirá adaptação à sua estrutura própria. IDEB, rendi
 
 **Componentes planejados:** mapa com códigos IBGE e limites geográficos corretos; tabela pesquisável; comparações de infraestrutura, matrículas e resultados divulgados; detalhamento por município; visualização de dados ausentes.
 
-**Situação atual:** existe protótipo HTML municipal com dados agregados de Censo 2024 e IDEB 2025 apresentados separadamente. O mapa geográfico e a página Power BI permanecem planejados.
+**Situação atual:** indicadores municipais agregados de Censo 2024 e IDEB 2025 já foram calculados e validados, apresentados separadamente por ano. O mapa geográfico e a página correspondente no Power BI ainda serão implementados.
 
 ## 7.5. Dashboard 5 — Prioridades e Recomendações Governamentais
 
@@ -286,17 +303,11 @@ O número de participantes com **local de prova** na Paraíba é um recorte dist
 
 A média aritmética simples **não é** o IDEB oficial agregado da rede estadual.
 
-## 9.4. Análise territorial e dashboards preliminares existentes
+## 9.4. Análise territorial e preparação do Power BI
 
-Já foi publicada uma visão municipal agregada com escolas, matrículas e infraestrutura do Censo 2024, além de resultados do IDEB 2025 apresentados separadamente. Também existem gráficos e um notebook de análise exploratória.
+Foram calculados indicadores agregados por município, incluindo escolas, matrículas e infraestrutura do Censo Escolar 2024 e resultados do IDEB 2025, apresentados separadamente por ano. Também foram elaborados gráficos, um notebook de análise exploratória, relatórios de qualidade e uma auditoria da integração escolar.
 
-O desenvolvimento atual possui:
-- Protótipo HTML de **Visão Executiva**;
-- Protótipo HTML **Territorial por Município**;
-- Relatórios de qualidade, integração e visualizações;
-- Códigos e testes de geração reproduzível.
-
-**Ainda não há arquivo Power BI (.pbix) definitivo com cinco páginas.**
+Esses resultados constituem **insumos validados para a construção do relatório Power BI com cinco páginas**. A modelagem semântica, as medidas DAX e o arquivo **.pbix** final permanecem como entregas de desenvolvimento.
 
 # 10. Propostas de decisão e critérios de priorização
 
@@ -324,7 +335,6 @@ A eventual combinação em uma pontuação deverá documentar critérios, normal
 | Scripts e testes de filtragem, limpeza e integração | **Realizados e executados para ENEM/Censo 2024.** |
 | Auditoria de chaves e relatórios de qualidade | **Publicados para 2024.** |
 | Notebooks e relatório exploratório | **Versões preliminares disponíveis.** |
-| Dashboard executivo e municipal em HTML | **Protótipos implementados.** |
 | Relatório Power BI com cinco páginas | **Planejado; ainda não construído.** |
 | Inclusão de rendimento, SAEB e indicadores docentes | **Planejada ou complementar, conforme viabilidade.** |
 | Comparações validadas entre 2024 e 2025 | **Pendentes.** |
@@ -348,9 +358,9 @@ A eventual combinação em uma pontuação deverá documentar critérios, normal
 - **IDEB:** uma média simples de notas escolares não substitui indicador oficial agregado.
 - **Causalidade:** a observação de diferentes resultados e recursos escolares não demonstra efeitos de políticas.
 - **Privacidade:** microdados pessoais e agrupamentos pequenos exigem proteção e avaliação antes de divulgação.
-- **Entregas:** os protótipos HTML demonstram viabilidade visual, mas não constituem a implementação final do Power BI.
+- **Entregas:** análises, indicadores e documentação estão disponíveis; o arquivo final do Power BI ainda precisa ser desenvolvido e revisado.
 
-**Deploy da aplicação:** os protótipos HTML foram publicados como arquivos no repositório GitHub; não há, nesta revisão, indicação de um site independente implantado ou de relatório Power BI publicado em serviço.
+**Publicação do Power BI:** não há, nesta revisão, arquivo PBIX finalizado nem relatório publicado no Power BI Service. A disponibilização será definida após a conclusão das cinco páginas e a validação dos indicadores.
 
 **Repositório do projeto:** https://github.com/psoaresvieira/projeto_inep
 
@@ -358,9 +368,11 @@ A eventual combinação em uma pontuação deverá documentar critérios, normal
 
 ## Referências e rastreabilidade
 
-- INEP — Microdados do ENEM: https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem
-- INEP — Microdados do Censo Escolar: https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar
-- INEP — IDEB: https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb
+- [INEP — Microdados do ENEM (2024 e 2025)](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem)
+- [INEP — Microdados do Censo Escolar (2024 e 2025)](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar)
+- [INEP — Resultados oficiais IDEB 2025](https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb/resultados)
+- [INEP — Taxas de Rendimento Escolar](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/indicadores-educacionais/taxas-de-rendimento-escolar)
+- [INEP — Microdados do SAEB](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/saeb)
 - Relatórios técnicos do projeto: https://github.com/psoaresvieira/projeto_inep/tree/main/reports
 - Código e testes: https://github.com/psoaresvieira/projeto_inep/tree/main/src
 - Documentação metodológica: https://github.com/psoaresvieira/projeto_inep/tree/main/docs
