@@ -1,380 +1,146 @@
 # Projeto INEP
 ## Diagnóstico da Qualidade do Ensino Médio Público da Paraíba
-### Documentação acadêmica, técnica e funcional — Versão revisada
+### Especificação das entregas — Power BI
 
 **Disciplina:** Análise de Dados  
-**Público-alvo:** Governo do Estado da Paraíba  
+**Público-alvo:** gestão estadual da Paraíba (apresentação acadêmica)  
 **Equipe:** Pedro Alexandre; Pedro Henrique Faustino; Maria Vitória Espínola Carneiro  
-**Data de atualização:** 12 de novembro de 2026  
-**Status:** preparação, auditoria e análise exploratória de 2024 executadas; estrutura de cinco dashboards Power BI definida, com implementação do arquivo PBIX ainda pendente; processamento completo de 2025 e relatório conclusivo também pendentes.
+**Atualização:** 12 de novembro de 2026  
+**Entrega principal:** relatório Power BI com cinco páginas integradas.
 
-> **Síntese executiva.** O projeto integra, de maneira auditável e metodologicamente cautelosa, indicadores oficiais de aprendizagem, infraestrutura e oferta do ensino médio público da Paraíba. Sua finalidade é identificar diferenças entre escolas e municípios e oferecer evidências para a avaliação de políticas educacionais — sem confundir associação com causalidade ou resultados amostrais com toda a rede estadual.
+> **Visão geral.** O projeto apresentará indicadores oficiais do ENEM, Censo Escolar, IDEB e, quando incorporados e validados, taxas de rendimento e SAEB. O foco está em demonstrar a situação do ensino médio público estadual, revelar diferenças entre municípios e apoiar a identificação de necessidades educacionais. Os indicadores serão acompanhados de fonte, período e limitações.
 
 ---
 
-# 1. Introdução, contexto e objetivos
+# 1. Objetivo da entrega
 
-## 1.1. Objetivo geral
+Disponibilizar **um relatório interativo no Power BI**, voltado à compreensão da qualidade do ensino médio público da rede estadual da Paraíba. A apresentação deverá reunir resultados de aprendizagem, matrícula, infraestrutura, rendimento e distribuição territorial em uma linguagem acessível aos gestores.
 
-Desenvolver um processo reproduzível de inspeção, limpeza, integração e análise exploratória de bases educacionais públicas, acompanhado de **um relatório Power BI com cinco páginas analíticas integradas**, para diagnosticar aspectos da qualidade do ensino médio público da Paraíba e subsidiar propostas de melhoria da aprendizagem na gestão estadual.
+A pergunta que orienta a entrega é: **como estão distribuídos os resultados e as condições do ensino médio estadual, onde aparecem as maiores necessidades e que ações merecem avaliação pela gestão pública?**
 
-## 1.2. Contexto e justificativa
+O relatório **não será uma coleção isolada de gráficos**: cada uma das cinco páginas responderá a uma questão e permitirá consultar os detalhes relevantes, com recorte prioritário da rede estadual da Paraíba.
 
-O Governo do Estado precisa interpretar dados de desempenho, fluxo escolar, infraestrutura e condições de oferta de ensino de maneira articulada. A disponibilização de microdados e indicadores pelo INEP torna possível transformar informações dispersas em diagnósticos compreensíveis, com recortes territoriais que apoiem decisões de acompanhamento pedagógico e alocação de recursos.
+# 2. Os cinco dashboards do Power BI
 
-Não se pressupõe que correlações representem relações de causa e efeito. O valor do projeto está na **identificação de necessidades e hipóteses verificáveis**, na documentação das fontes e na transparência dos critérios de análise.
+A entrega principal será **um único arquivo Power BI (.pbix), com cinco páginas**, menu de navegação e identidade visual consistente.
 
-## 1.3. Pergunta central
-
-**Quais necessidades de aprendizagem e desigualdades educacionais podem ser identificadas no ensino médio público da Paraíba, e que intervenções governamentais merecem avaliação à luz das evidências disponíveis?**
-
-## 1.4. Objetivos específicos
-
-1. Catalogar, inspecionar e documentar os microdados e indicadores educacionais oficiais aplicáveis à Paraíba.
-2. Construir recortes reprodutíveis, com identificação explícita do ano, da rede de ensino e da unidade de análise.
-3. Validar a integridade, o tratamento de ausências e a correspondência das chaves escolares.
-4. Descrever aprendizagem, rendimento, oferta, matrículas e infraestrutura conforme a disponibilidade e a qualidade das fontes.
-5. Examinar diferenças municipais e evolução temporal quando as definições forem comparáveis.
-6. Projetar cinco páginas interativas no Power BI e apresentar achados com ressalvas metodológicas.
-7. Sugerir hipóteses de intervenção e medidas de acompanhamento, sem antecipar conclusões causais.
-
-## 1.5. Escopo e público-alvo
-
-O foco principal é o **ensino médio da rede estadual da Paraíba**. Outras redes públicas podem ser apresentadas como contexto comparativo somente quando a base oferecer variável de dependência administrativa e a comparação for apropriada.
-
-O público-alvo é a gestão estadual; o painel deve privilegiar indicadores relevantes para tomada de decisão, e não apenas visualizações descritivas.
-
-# 2. Metodologia — D.E.I.L.A.S.
-
-| Etapa | Aplicação ao projeto | Evidência ou entrega prevista |
+| Página | Pergunta respondida | Conteúdo principal |
 |---|---|---|
-| **D — Definir objetivos** | Delimitar a qualidade do ensino público, a questão de pesquisa e o recorte da rede estadual. | Problema, objetivos, público e perguntas norteadoras. |
-| **E — Escolher métricas** | Selecionar medidas de aprendizagem, rendimento, participação, infraestrutura e desigualdade territorial. | Dicionário de indicadores e denominadores. |
-| **I — Identificar fontes** | Catalogar microdados, dicionários oficiais, anos, cobertura, granularidade e chaves. | Inventários e documentação de origem dos datasets. |
-| **L — Limpar os dados** | Corrigir tipos, conservar ausências, padronizar categorias, verificar faixas e auditar duplicidades. | Scripts, testes e relatórios de qualidade. |
-| **A — Analisar os dados** | Explorar distribuições, diferenças entre grupos e localidades e comparações válidas por ano. | Notebooks, gráficos e dashboards. |
-| **S — Sugerir soluções** | Traduzir achados em ações a avaliar, com critérios claros e medidas de acompanhamento. | Relatório executivo e hipóteses de políticas públicas. |
+| **1 — Visão Executiva** | Como está a educação estadual? | Síntese de escolas, matrículas, IDEB, aprendizagem, infraestrutura, rendimento e principais pontos de atenção. |
+| **2 — Desempenho e Aprendizagem** | Onde estão as dificuldades educacionais? | Resultados do ENEM por área, distribuição de notas, IDEB, indicadores de aprendizagem e evolução temporal quando comparável. |
+| **3 — Infraestrutura e Condições de Ensino** | Quais recursos estão disponíveis nas escolas? | Internet, banda larga, bibliotecas, laboratórios, quadras e demais recursos escolares; condições docentes quando houver fonte adequada. |
+| **4 — Desigualdades Territoriais** | Como os indicadores diferem entre municípios? | Mapa da Paraíba, comparações municipais, matrículas, infraestrutura e resultados educacionais disponíveis. |
+| **5 — Prioridades e Recomendações** | Quais necessidades e propostas merecem avaliação primeiro? | Síntese dos problemas observados, critérios transparentes de atenção prioritária, ações possíveis e medidas para acompanhamento. |
 
-A implementação ocorre iterativamente: novas fontes ou problemas de qualidade podem exigir retorno às etapas de identificação, limpeza e definição das métricas.
+## 2.1. Visão Executiva
 
-# 3. Tecnologias e arquitetura da solução
+A primeira página será o ponto de entrada para o governador e sua equipe. Conterá cartões com os principais números da rede, gráficos-resumo e destaques das desigualdades mais relevantes. O usuário poderá navegar da visão geral para as páginas temáticas.
 
-## 3.1. Tecnologias utilizadas e propostas
+**Elementos previstos:** indicadores principais; comparação entre resultados; síntese territorial; notas sobre o período e a cobertura de cada informação.
 
-| Tecnologia | Papel no projeto | Situação |
+## 2.2. Desempenho e Aprendizagem
+
+Reunirá informações sobre os resultados do ENEM e IDEB, sem tratar essas avaliações como se fossem equivalentes. Os gráficos indicarão as áreas de conhecimento, a quantidade de notas válidas e a distribuição dos resultados. Serão incluídas comparações de períodos apenas quando os dados forem compatíveis.
+
+**Elementos previstos:** gráficos por área do ENEM; distribuição de notas; indicadores do IDEB; taxas oficiais de aprovação, reprovação e abandono, caso incorporadas; comparações entre localidades permitidas pelas fontes.
+
+## 2.3. Infraestrutura e Condições de Ensino
+
+Mostrará a disponibilidade de recursos nas escolas estaduais, permitindo observar diferenças entre municípios e identificar itens que demandem investigação e possível investimento.
+
+**Elementos previstos:** percentuais de escolas com internet, banda larga, biblioteca, laboratórios de ciências e informática, quadra e outros recursos; comparação territorial; indicadores docentes, se disponíveis e validados.
+
+## 2.4. Desigualdades Territoriais
+
+Apresentará a distribuição geográfica de escolas, matrículas, infraestrutura e desempenho no estado, com **mapa municipal interativo** e tabela comparativa. O mapa e as tabelas permitirão escolher um município e aprofundar seus indicadores.
+
+**Elementos previstos:** mapa dos municípios; busca e filtros; tabela ordenável; indicadores municipais; distinção clara entre anos, fontes e dados não disponíveis.
+
+## 2.5. Prioridades e Recomendações Governamentais
+
+Organizará as principais necessidades identificadas nas demais páginas. Associará cada necessidade a **possíveis ações de política pública** e a indicadores que permitam acompanhar seus resultados.
+
+**Elementos previstos:** matriz de necessidades; comparação entre localidades; justificativas das prioridades; possíveis ações de reforço escolar, permanência, infraestrutura ou formação docente; métricas para acompanhamento.
+
+Uma classificação de municípios, se utilizada, exigirá critérios e pesos documentados e validados. **Não haverá ranking baseado em números fictícios ou pesos escolhidos sem justificativa.**
+
+# 3. Indicadores previstos no relatório
+
+| Eixo | Indicadores a apresentar | Fonte principal |
 |---|---|---|
-| **Python e bibliotecas de dados** | Inspeção, transformação, indicadores, testes e geração de bases analíticas. | Scripts e fluxos de 2024 executados. |
-| **Jupyter Notebook / Google Colab** | Exploração e reprodutibilidade acadêmica. | Notebook exploratório inicial disponível. |
-| **Power BI Desktop** | Relatório definitivo com cinco páginas, segmentadores e medidas. | **Proposto; arquivo PBIX ainda não implementado.** |
-| **Git e GitHub** | Versionamento, Issues, execução automatizada e publicação de documentação. | Utilizados no desenvolvimento. |
+| **Panorama da rede** | Escolas estaduais com ensino médio, matrículas e municípios contemplados. | Censo Escolar |
+| **Aprendizagem — ENEM** | Notas médias válidas por área, mediana, distribuição, quantidade de resultados válidos e cobertura escolar. | ENEM |
+| **Desempenho — IDEB** | Índice oficial na unidade publicada, notas escolares disponíveis e comparação temporal válida. | IDEB |
+| **Fluxo escolar** | Taxas oficiais de aprovação, reprovação e abandono, se disponíveis no recorte. | Indicadores de rendimento |
+| **Infraestrutura** | Percentual de escolas com internet, banda larga, biblioteca, laboratório de ciências, informática e quadra. | Censo Escolar |
+| **Condições docentes** | Indicadores de formação e adequação docente, caso haja base apropriada. | Censo Escolar / indicadores oficiais |
+| **Território** | Comparação municipal de matrículas, infraestrutura e resultados divulgados. | Indicadores agregados |
+| **Prioridades** | Necessidades identificadas, população potencialmente abrangida e métricas de acompanhamento. | Síntese dos indicadores disponíveis |
 
-## 3.2. Fluxo de dados proposto
+**Referência inicial dos dados:** no recorte já apurado para o Censo Escolar 2024, foram identificadas **482 escolas estaduais com ensino médio, 116.779 matrículas declaradas e 223 municípios**. Esses números devem aparecer com o ano e o recorte definidos, e não como valores permanentes.
 
-**INEP (fontes brutas)** → **Python (inspeção, filtragem, limpeza, validações)** → **tabelas analíticas com granularidade definida** → **Power BI (modelo semântico, medidas DAX, cinco páginas)** → **relatório executivo**.
+Para o ENEM, as médias serão apresentadas como resultados do grupo observado, **não como retrato de todos os estudantes da rede**. No IDEB, a média aritmética de escolas não será identificada como o índice oficial agregado da rede. Informações ausentes serão sinalizadas em vez de convertidas em zero.
 
-Os ZIPs nacionais e recortes com informações individuais não devem ser publicados no repositório público. O GitHub armazena códigos, documentação, testes, indicadores agregados e versões que não exponham dados pessoais.
+# 4. Experiência visual e funcionalidades
 
-## 3.3. Modelo conceitual para o Power BI
+O relatório terá visual profissional e consistente, adequado a uma apresentação executiva: **azul-marinho, verde-petróleo, superfícies claras, cartões de indicadores, gráficos objetivos, tabelas e mapa**.
 
-A arquitetura proposta utiliza dimensões de **Ano**, **Município**, **Escola** e **Rede de ensino**, sempre que houver identificadores compatíveis. As tabelas de fatos não serão misturadas sem considerar sua granularidade:
+Serão disponibilizados, conforme a pertinência de cada fonte:
 
-- **Fato Censo / Escolas:** uma observação por escola e edição do Censo, contendo recursos e características da oferta.
-- **Fato Matrículas / Rendimento:** quantidades ou taxas na unidade oficial correspondente (escola, rede, município e ano), conforme a fonte.
-- **Fato ENEM:** resultados por prova e participante identificável apenas nos limites dos microdados públicos; para relacionamento com escolas, priorizar indicadores previamente agregados por escola e ano.
-- **Fato IDEB:** indicador divulgado na unidade e edição oficiais, com valores ausentes distintos de zero.
+- **Navegação por cinco páginas**, com retorno à visão geral.
+- **Filtros de município, ano, rede e área do conhecimento**, apenas onde fizerem sentido.
+- **Detalhamento de indicadores**, com explicações de fonte, período e unidade de medida.
+- **Comparação territorial**, busca de municípios e ordenação de tabelas.
+- **Exportação de visões agregadas**, quando permitida pelo Power BI e pelas configurações de publicação.
 
-Os relacionamentos devem ser testados quanto à unicidade das dimensões, cardinalidade, direção de filtros e risco de contagens duplicadas. Dimensões compartilhadas não autorizam somar indevidamente populações ou tratar indicadores de anos diferentes como equivalentes.
+A informação mais importante deve ser compreendida rapidamente. Informações técnicas adicionais ficarão em notas, legendas e detalhes do indicador, evitando excesso de conteúdo na visão executiva.
 
-# 4. Fontes de dados e sua disponibilidade
+# 5. Regras de negócio essenciais
 
-| ID | Base | Conteúdo relevante | Ano(s) | Situação no projeto |
-|---|---|---|---|---|
-| F01 | **ENEM** | Notas, presença, escola quando informada e questionário, em arquivos específicos. | 2024 e 2025 | 2024 processado; estrutura 2025 inspecionada, mas resultados ainda não tratados. |
-| F02 | **Censo Escolar** | Unidades escolares, rede, localização, matrículas e recursos escolares. | 2024 e 2025 | 2024 processado; 2025 requer adaptação à estrutura de múltiplas tabelas. |
-| F03 | **IDEB — ensino médio** | Indicadores por escola e outros níveis oficiais de divulgação. | 2025 | Planilha escolar inspecionada e recortada para a Paraíba. |
-| F04 | **Taxas de rendimento** | Aprovação, reprovação e abandono. | 2024/2025 | **Prevista; indicadores ainda não incorporados à base analítica.** |
-| F05 | **SAEB** | Dados complementares sobre aprendizagem e contexto. | 2023, conforme escopo | **Complementar; ainda não integrado.** |
-
-## 4.1. Links oficiais das bases efetivamente utilizadas
-
-As bases são disponibilizadas pelo **Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP)**. Os links abaixo permitem localizar a documentação e baixar os pacotes nacionais originais; os filtros para a Paraíba são realizados posteriormente em Python.
-
-| Base e edição | Página oficial para consulta e dicionário | Arquivo utilizado no processamento |
-|---|---|---|
-| **ENEM 2024** | [Microdados ENEM — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem) | [Baixar microdados ENEM 2024 (.zip)](https://download.inep.gov.br/microdados/microdados_enem_2024.zip) |
-| **Censo Escolar 2024** | [Microdados Censo Escolar — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar) | [Baixar microdados Censo Escolar 2024 (.zip)](https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2024.zip) |
-| **IDEB 2025 — ensino médio, escolas** | [Resultados IDEB — INEP](https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb/resultados) | [Baixar planilha escolar IDEB 2025 (.zip)](https://download.inep.gov.br/ideb/resultados/divulgacao_ensino_medio_escolas_2025.zip) |
-
-Os três pacotes acima são os que fundamentam as contagens e as análises preliminares de 2024/2025 apresentadas neste documento. O tratamento dos registros e a rastreabilidade das fontes estão descritos no [repositório do projeto](https://github.com/psoaresvieira/projeto_inep).
-
-## 4.2. Fontes disponíveis ou previstas para ampliação da análise
-
-| Base e edição | Fonte oficial | Situação |
-|---|---|---|
-| **ENEM 2025** | [Página oficial](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem) · [Baixar microdados 2025 (.zip)](https://download.inep.gov.br/microdados/microdados_enem_2025.zip) | Pacote inspecionado; os resultados ainda requerem leitura compatível e validação. |
-| **Censo Escolar 2025** | [Página oficial](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar) · [Baixar microdados 2025 (.zip)](https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2025_.zip) | Estrutura inspecionada; integração e análise ainda pendentes. |
-| **Taxas de rendimento 2024/2025** | [Taxas de Rendimento Escolar — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/indicadores-educacionais/taxas-de-rendimento-escolar) | Fonte identificada; taxas de aprovação, reprovação e abandono ainda não incorporadas ao projeto. |
-| **SAEB 2023** | [Microdados SAEB — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/saeb) | Fonte complementar ainda não integrada. |
-
-**Importante:** um link disponível não significa que a base foi processada. Somente os dados efetivamente conferidos podem fundamentar gráficos, indicadores e conclusões. A documentação oficial de cada edição deve ser consultada para os critérios de recorte, variáveis e limitações.
-
-A disponibilidade de um pacote não significa que seus registros já tenham sido analisados. Os dados de 2025 precisam passar por inspeção detalhada, adaptação e validação antes de qualquer comparação temporal.
-
-# 5. Indicadores e métricas
-
-## 5.1. Aprendizagem e participação — ENEM
-
-| Indicador | Definição / regra de cálculo | Fonte |
-|---|---|---|
-| Nota média por área | Média das notas **válidas** em Linguagens, Humanas, Natureza, Matemática e Redação; informar quantidade de notas válidas (N). | ENEM |
-| Mediana e dispersão | Mediana, quartis, distribuição e desvio-padrão das notas no recorte selecionado. | ENEM |
-| Participação observada | Registros com presença válida, sempre com denominador explícito. | ENEM |
-| Diferenças entre grupos | Comparações por variáveis disponíveis e compatíveis, sem vinculações individuais não demonstradas. | ENEM |
-| Cobertura escolar | Percentual de registros de resultados com identificação escolar compatível com Censo no mesmo ano. | ENEM + Censo |
-
-**Restrição identificada:** no ENEM 2024, os arquivos PARTICIPANTES e RESULTADOS não possuem uma chave individual comum validada no projeto. **Não realizar junção por posição, índice ou ordem das linhas** para atribuir renda, sexo ou respostas do questionário às notas.
-
-## 5.2. Qualidade e contexto da rede pública
-
-| Indicador | Definição / regra | Fonte |
-|---|---|---|
-| IDEB do ensino médio | Utilizar o **valor oficial divulgado** para escola, município ou rede, quando disponível. | IDEB |
-| Média simples escolar de IDEB | Média não ponderada das escolas com nota válida, identificada como estatística descritiva; **não equivale ao IDEB oficial da rede**. | IDEB |
-| Aprovação / reprovação / abandono | Taxas oficiais por ano e recorte, sem inferir valores a partir de contagens incompletas. | Rendimento (pendente) |
-| Matrículas | Total de matrículas do ensino médio com recorte claro de rede, município e ano. | Censo |
-| Infraestrutura | Percentual de escolas com recurso declarado; registrar **sim, não e não informado** separadamente. | Censo |
-| Condições docentes | Indicadores adequados de formação e disponibilidade de professores quando a fonte permitir. | Censo (a desenvolver) |
-| Desigualdade territorial | Distribuição dos indicadores por município e diferenças observadas, com análise de cobertura e denominadores. | Dados integrados |
-| Qualidade e cobertura dos dados | Percentual de campos ausentes, escolas pareadas, notas disponíveis e indicadores suprimidos. | Pipeline |
-
-As métricas finais e suas fórmulas, especialmente rendimento e formação docente, devem ser validadas nos dicionários oficiais antes da implementação em DAX.
-
-# 6. Limpeza, integração e validação
-
-## 6.1. Procedimentos de limpeza
-
-1. Selecionar registros da Paraíba e, quando aplicável, da rede estadual, registrando filtros explícitos.
-2. Manter arquivos brutos originais e scripts reproduzíveis.
-3. Corrigir tipos, padronizar categorias e validar anos, códigos escolares e intervalos permitidos.
-4. Preservar **ausência de informação** como diferente de **valor zero**.
-5. Auditar valores inválidos, categorias não informadas, presença nas provas e duplicidade de escolas.
-6. Comparar contagens antes e depois dos tratamentos e documentar exceções.
-
-## 6.2. Integração escolar já validada para 2024
-
-Foi implementado e executado um relacionamento candidato entre **CO_ESCOLA**, no arquivo de resultados do ENEM 2024, e **CO_ENTIDADE**, no Censo Escolar 2024, após filtros para a rede estadual e auditoria de cobertura.
-
-- **497 escolas** distintas no recorte de resultados do ENEM 2024.
-- **482 escolas** estaduais com ensino médio no recorte do Censo 2024.
-- **456 escolas** presentes nas duas bases.
-- **29.393 de 29.783** registros do ENEM com escola estadual identificada na Paraíba encontraram correspondência escolar no Censo (**98,69%**).
-- **Nenhum código escolar duplicado** no recorte do Censo.
-
-A base integrada de 2024 foi produzida com uma linha por escola do Censo, após agregação de indicadores do ENEM por escola. Trata-se de integração **escolar**, não da ligação de questionários socioeconômicos a notas individuais.
-
-## 6.3. Integrações e comparações ainda previstas
-
-As edições ENEM 2024 e 2025 poderão ser empilhadas **somente após harmonização de esquemas e definições**, para comparações entre edições, sem tentar identificar o mesmo participante entre anos.
-
-O Censo Escolar 2025 exigirá adaptação à sua estrutura própria. IDEB, rendimento e SAEB deverão ser relacionados exclusivamente por chaves, períodos e níveis de agregação compatíveis. A comparação de Censo 2024 com IDEB 2025 deve ser explicitamente longitudinal, não um cruzamento de informações do mesmo período.
-
-## 6.4. Critérios de qualidade obrigatórios
-
-- Documentar origem, versão e dicionário das bases.
-- Verificar chaves e cardinalidade antes de cada junção.
-- Publicar notas e taxas com denominador e regras de exclusão.
-- Evitar divulgar grupos pequenos quando houver risco de interpretação indevida ou reidentificação.
-- Informar fonte, período e unidade de análise de cada visual.
-- Não atribuir causalidade a associações descritivas.
-
-# 7. Estrutura funcional do relatório Power BI — Cinco dashboards
-
-**Solução proposta:** um único arquivo **.pbix** com cinco páginas interligadas, menu lateral, identidade visual consistente, filtros pertinentes e opção de detalhamento. **O relatório definitivo em Power BI ainda não foi produzido.**
-
-## 7.1. Dashboard 1 — Visão Executiva
-
-**Pergunta:** Como está a situação geral do ensino médio estadual da Paraíba?
-
-**Componentes planejados:** cartões de escolas, matrículas e municípios; valor oficial e evolução do IDEB quando disponível; aprendizagem, aprovação e abandono após coleta das fontes; indicadores de infraestrutura e resumo de diferenças territoriais. Cada cartão deve indicar ano e população.
-
-**Finalidade:** permitir que o governador identifique rapidamente questões que merecem aprofundamento nas outras páginas.
-
-## 7.2. Dashboard 2 — Desempenho e Aprendizagem
-
-**Pergunta:** Onde os indicadores de aprendizagem mostram maiores dificuldades?
-
-**Componentes planejados:** distribuição das notas ENEM por área, mediana e quartis, quantidade de notas válidas, IDEB escolar ou oficialmente agregado, SAEB quando incorporado, comparação por município e evolução temporal somente quando válida.
-
-**Cuidados:** não extrapolar o ENEM para toda a rede; não comparar notas de provas como se tivessem escalas idênticas; não usar questionário socioeconômico sem chave individual validada.
-
-## 7.3. Dashboard 3 — Infraestrutura e Condições de Ensino
-
-**Pergunta:** Quais recursos estão disponíveis nas escolas estaduais e onde aparecem as maiores necessidades?
-
-**Componentes planejados:** internet, banda larga, biblioteca, laboratório de ciências, laboratório de informática, quadra, infraestrutura de água e, se viável, indicadores docentes. Filtros por município e rede conforme a fonte.
-
-**Finalidade:** comparar recursos declarados, identificar lacunas e apoiar diagnóstico de necessidades de investimento; a presença do recurso não demonstra sua qualidade ou efeito sobre notas.
-
-## 7.4. Dashboard 4 — Desigualdades Territoriais
-
-**Pergunta:** Como a oferta, a infraestrutura e os resultados se distribuem entre os municípios?
-
-**Componentes planejados:** mapa com códigos IBGE e limites geográficos corretos; tabela pesquisável; comparações de infraestrutura, matrículas e resultados divulgados; detalhamento por município; visualização de dados ausentes.
-
-**Situação atual:** indicadores municipais agregados de Censo 2024 e IDEB 2025 já foram calculados e validados, apresentados separadamente por ano. O mapa geográfico e a página correspondente no Power BI ainda serão implementados.
-
-## 7.5. Dashboard 5 — Prioridades e Recomendações Governamentais
-
-**Pergunta:** Quais necessidades e propostas de intervenção merecem avaliação primeiro?
-
-**Componentes planejados:** matriz de problemas e hipóteses de ação, indicadores territoriais, população potencialmente beneficiada, confiança/cobertura dos dados, possibilidade de acompanhamento e critérios transparentes de priorização.
-
-**Cuidados:** a pontuação ou o ranking de municípios **não será produzido automaticamente** a partir de pesos arbitrários. Critérios, limites e eventual ponderação deverão ser fundamentados e revisados pelo grupo, considerando evidências, contexto e viabilidade.
-
-## 7.6. Experiência de navegação e design
-
-A proposta visual utiliza azul-marinho, verde-petróleo e fundos claros; cards de KPI com unidades e anos visíveis; gráficos legíveis; tabelas acessíveis; menu de navegação das cinco páginas; segmentadores sincronizados quando apropriado.
-
-A implementação em Power BI poderá usar indicadores DAX, filtros, drillthrough e tooltips. A escolha final de elementos dependerá de consistência dos dados, clareza para gestores e desempenho do relatório.
-
-# 8. Regras de negócio do dashboard
-
-| Código | Regra |
+| Regra | Definição |
 |---|---|
-| **RN01 — Recorte territorial** | Paraíba como recorte principal; municípios mediante identificadores válidos. |
-| **RN02 — Rede de ensino** | Priorizar rede estadual e distinguir outras redes quando a fonte permitir. |
-| **RN03 — Filtros** | Filtros de ano, município, rede e área do conhecimento somente onde forem semanticamente aplicáveis. |
-| **RN04 — Integridade** | Não transformar ausentes em zero; informar presença, exclusões e denominadores. |
-| **RN05 — Série temporal** | Distinguir anos e avisar quando definições ou populações não forem comparáveis. |
-| **RN06 — Fonte e atualização** | Cada indicador deve informar fonte, ano, unidade de medida e data da última carga. |
-| **RN07 — Privacidade** | Não divulgar identificação individual; aplicar supressão e revisão quando necessário. |
-| **RN08 — Recomendações** | Tratar propostas como hipóteses, com justificativa, público beneficiado e critério de avaliação. |
-| **RN09 — Exportação** | Permitir exportar visões agregadas e resumos quando o recurso e as permissões forem adequados. |
-| **RN10 — Organização visual** | O relatório Power BI deverá conter cinco páginas temáticas, sem redundância excessiva. |
-| **RN11 — Navegação** | Disponibilizar navegação entre páginas e contexto dos filtros utilizados. |
-| **RN12 — Granularidade** | Não somar linhas de participantes, escolas ou matrículas como se representassem a mesma unidade. |
-| **RN13 — Priorização transparente** | Documentar critérios e eventuais ponderações; não criar rankings sem validação. |
-| **RN14 — Acessibilidade** | Priorizar contraste, rótulos legíveis, navegação compreensível e texto alternativo quando possível. |
-| **RN15 — Governança** | Separar indicadores concluídos, preliminares e planejados; permitir rastrear dados e transformações. |
+| **RN01 — Escopo** | Priorizar a Paraíba e o ensino médio da rede estadual; outras redes apenas em comparações identificadas. |
+| **RN02 — Navegação e filtros** | Manter cinco páginas integradas e filtros aplicáveis a cada indicador, sem gerar comparações indevidas. |
+| **RN03 — Indicadores confiáveis** | Exibir fonte, ano, unidade e base de cálculo; distinguir ausência de informação de valor zero e respeitar as limitações de comparabilidade. |
+| **RN04 — Privacidade** | Apresentar informações agregadas e não expor registros individuais de estudantes. |
+| **RN05 — Recomendações** | Justificar as prioridades com indicadores verificáveis; tratar ações como propostas a avaliar, nunca como efeitos comprovados. |
 
-# 9. Análise exploratória — Resultados preliminares verificados
+# 6. Fontes oficiais dos dados
 
-Os valores abaixo correspondem aos recortes efetivamente processados até esta revisão. São **estatísticas descritivas**, não estimativas causais nem evidências de representatividade integral da rede quando derivadas do ENEM.
+As fontes abaixo são mantidas pelo **Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP)**. Incluímos os endereços de consulta e, quando disponíveis, os links dos pacotes usados ou previstos para o recorte da Paraíba.
 
-## 9.1. Oferta do ensino médio estadual — Censo Escolar 2024
+## 6.1. Bases centrais
 
-| Indicador | Resultado |
-|---|---:|
-| Escolas estaduais com ensino médio na Paraíba | **482** |
-| Municípios atendidos | **223** |
-| Matrículas de ensino médio declaradas | **116.779** |
-| Escolas com internet declarada | **459** |
-| Escolas com biblioteca declarada | **358** |
-| Escolas com laboratório de informática declarado | **284** |
-| Escolas com laboratório de ciências declarado | **233** |
-| Escolas com quadra de esportes declarada | **248** |
-| Escolas com banda larga declarada | **139** |
-
-A diferença entre presença de internet e de banda larga justifica uma investigação de conectividade; não demonstra, por si só, deficiência de qualidade ou impacto pedagógico.
-
-## 9.2. ENEM 2024 — Participantes com escola estadual da PB identificada
-
-**29.783 registros** atendem ao recorte escolar estadual. As médias abaixo utilizam apenas notas válidas, com denominadores específicos:
-
-| Área | Notas válidas | Média descritiva |
-|---|---:|---:|
-| Ciências da Natureza | 21.786 | 456,53 |
-| Ciências Humanas | 22.487 | 467,67 |
-| Linguagens | 22.487 | 489,85 |
-| Matemática | 21.786 | 476,81 |
-| Redação | 22.487 | 571,92 |
-
-O número de participantes com **local de prova** na Paraíba é um recorte distinto. Não se deve confundir local de prova, escola e residência, ou concluir que as médias acima representam todos os estudantes estaduais.
-
-## 9.3. IDEB 2025 — Planilha de escolas estaduais
-
-| Indicador | Resultado |
-|---|---:|
-| Escolas estaduais da PB presentes na planilha | **478** |
-| Escolas com IDEB 2025 numérico válido | **458** |
-| Escolas sem nota numérica válida | **20** |
-| Média aritmética simples das 458 escolas com nota | **4,267** |
-| Mediana entre escolas com nota | **4,3** |
-
-A média aritmética simples **não é** o IDEB oficial agregado da rede estadual.
-
-## 9.4. Análise territorial e preparação do Power BI
-
-Foram calculados indicadores agregados por município, incluindo escolas, matrículas e infraestrutura do Censo Escolar 2024 e resultados do IDEB 2025, apresentados separadamente por ano. Também foram elaborados gráficos, um notebook de análise exploratória, relatórios de qualidade e uma auditoria da integração escolar.
-
-Esses resultados constituem **insumos validados para a construção do relatório Power BI com cinco páginas**. A modelagem semântica, as medidas DAX e o arquivo **.pbix** final permanecem como entregas de desenvolvimento.
-
-# 10. Propostas de decisão e critérios de priorização
-
-As ações abaixo representam **hipóteses para investigação**. Nenhuma deve ser tratada como necessária antes de verificar dados, contexto local, capacidade administrativa, recursos disponíveis e alternativas de política pública.
-
-| Hipótese de achado | Possível resposta de gestão | Indicador de acompanhamento |
+| Base / período | Página oficial | Download |
 |---|---|---|
-| Dificuldades de aprendizagem em Matemática | Avaliação diagnóstica e reforço focalizado. | Resultados posteriores em avaliações comparáveis. |
-| Disparidades territoriais persistentes | Apoio pedagógico territorialmente orientado. | Evolução de indicadores comparáveis por município/rede. |
-| Abandono ou reprovação elevados | Busca ativa, apoio à permanência e acompanhamento da trajetória escolar. | Taxas oficiais de rendimento no período seguinte. |
-| Recursos pedagógicos ausentes | Diagnóstico de infraestrutura, manutenção e investimento planejado. | Cobertura, uso e funcionamento dos recursos. |
-| Conectividade declarada insuficiente | Avaliar qualidade do acesso e necessidades de contratação/equipamentos. | Disponibilidade e qualidade efetiva de conexão. |
+| **ENEM 2024** | [Microdados do ENEM — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem) | [Microdados ENEM 2024 (.zip)](https://download.inep.gov.br/microdados/microdados_enem_2024.zip) |
+| **Censo Escolar 2024** | [Microdados do Censo Escolar — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar) | [Microdados Censo 2024 (.zip)](https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2024.zip) |
+| **IDEB 2025 — escolas** | [Resultados IDEB — INEP](https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb/resultados) | [Resultados do ensino médio por escola (.zip)](https://download.inep.gov.br/ideb/resultados/divulgacao_ensino_medio_escolas_2025.zip) |
+| **ENEM 2025** | [Microdados do ENEM — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem) | [Microdados ENEM 2025 (.zip)](https://download.inep.gov.br/microdados/microdados_enem_2025.zip) |
+| **Censo Escolar 2025** | [Microdados do Censo Escolar — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar) | [Microdados Censo 2025 (.zip)](https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2025_.zip) |
 
-## 10.1. Como propor prioridades sem inventar rankings
+## 6.2. Fontes complementares
 
-A página de Prioridades Governamentais pode organizar os municípios ou escolas a partir dos seguintes critérios **a validar**: aprendizagem e fluxo escolar, desigualdade territorial, condições de oferta, número potencial de estudantes afetados, qualidade dos dados, viabilidade de intervenção e possibilidade de monitoramento.
+| Base | Página oficial | Aplicação prevista |
+|---|---|---|
+| **Taxas de Rendimento Escolar** | [Indicadores de rendimento — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/indicadores-educacionais/taxas-de-rendimento-escolar) | Aprovação, reprovação e abandono. |
+| **SAEB** | [Microdados do SAEB — INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/saeb) | Complemento para aprendizagem e comparação educacional válida. |
 
-A eventual combinação em uma pontuação deverá documentar critérios, normalização, pesos, limitações e análise de sensibilidade, além de ser revisada com a equipe. **Até isso acontecer, o dashboard deve mostrar diagnósticos e necessidades observadas, não uma classificação definitiva de municípios.**
+**Observação:** os links de 2025 e das fontes complementares **não significam que todos os indicadores estejam prontos**. Sua inclusão nos dashboards depende de disponibilidade, tratamento e validação. Cada visual trará o período correspondente, evitando misturar resultados de anos diferentes como se representassem a mesma edição.
 
-# 11. Entregáveis e andamento do projeto
+# 7. Entregáveis finais
 
-| Entregável | Situação em 12/11/2026 |
+| Entregável | O que será fornecido |
 |---|---|
-| Datasets brutos preservados e documentados, com volume compatível com a disciplina | **2024: realizado.** 2025: inspeção estrutural realizada, processamento pendente. |
-| Scripts e testes de filtragem, limpeza e integração | **Realizados e executados para ENEM/Censo 2024.** |
-| Auditoria de chaves e relatórios de qualidade | **Publicados para 2024.** |
-| Notebooks e relatório exploratório | **Versões preliminares disponíveis.** |
-| Relatório Power BI com cinco páginas | **Planejado; ainda não construído.** |
-| Inclusão de rendimento, SAEB e indicadores docentes | **Planejada ou complementar, conforme viabilidade.** |
-| Comparações validadas entre 2024 e 2025 | **Pendentes.** |
-| Relatório executivo final com recomendações avaliáveis | **Pendente de análises complementares.** |
+| **Relatório Power BI (.pbix)** | Cinco páginas interativas: Visão Executiva, Aprendizagem, Infraestrutura, Território e Prioridades. |
+| **Base analítica consolidada** | Tabelas tratadas e agregadas, com chaves e períodos identificados, para alimentar o Power BI. |
+| **Dicionário de indicadores e fontes** | Significado das métricas, unidade de análise, denominador, ano e links das fontes oficiais. |
+| **Análise dos resultados** | Síntese das diferenças educacionais observadas e de suas limitações. |
+| **Relatório executivo** | Documento conciso, voltado à gestão estadual, com os principais achados e propostas de acompanhamento. |
+| **Repositório do projeto** | Arquivos de suporte e documentação necessários à rastreabilidade dos resultados, sem publicação de dados individuais. |
 
-## 11.1. Próximas atividades prioritárias
+**Critério para considerar a entrega concluída:** cinco páginas navegáveis; indicadores conferidos e identificados por fonte/ano; filtros e mapas funcionais; relatório executivo coerente com os dados; documentação das limitações de interpretação.
 
-1. Resolver a leitura do arquivo de resultados ENEM 2025 e validar suas variáveis.
-2. Adaptar os scripts ao formato do Censo Escolar 2025 e produzir indicadores comparáveis.
-3. Obter taxas oficiais de aprovação, reprovação e abandono, confirmando seus níveis de divulgação.
-4. Construir tabelas analíticas para o Power BI com chaves e granularidade auditadas.
-5. Implementar as cinco páginas no Power BI, com navegação e visual coerentes.
-6. Aprofundar a análise estatística, apresentar limitações e revisar hipóteses de intervenção.
-7. Finalizar relatório acadêmico, apresentação ao governador e estratégia de disponibilização.
+**Resultado esperado:** a gestão estadual poderá visualizar **a situação geral da rede, as diferenças entre municípios, as condições das escolas e as necessidades que justificam investigação ou planejamento de ações**. O relatório fornecerá apoio ao diagnóstico e ao acompanhamento, sem afirmar causalidade a partir de associações descritivas.
 
-# 12. Limitações, transparência e disponibilização
-
-- **Representatividade:** o ENEM não cobre necessariamente todos os estudantes da rede estadual.
-- **Comparabilidade:** fontes e anos distintos exigem análise de equivalência antes de inferir evolução.
-- **Identificação:** participantes e resultados do ENEM 2024 não foram associados individualmente por ausência de chave comum validada.
-- **IDEB:** uma média simples de notas escolares não substitui indicador oficial agregado.
-- **Causalidade:** a observação de diferentes resultados e recursos escolares não demonstra efeitos de políticas.
-- **Privacidade:** microdados pessoais e agrupamentos pequenos exigem proteção e avaliação antes de divulgação.
-- **Entregas:** análises, indicadores e documentação estão disponíveis; o arquivo final do Power BI ainda precisa ser desenvolvido e revisado.
-
-**Publicação do Power BI:** não há, nesta revisão, arquivo PBIX finalizado nem relatório publicado no Power BI Service. A disponibilização será definida após a conclusão das cinco páginas e a validação dos indicadores.
-
-**Repositório do projeto:** https://github.com/psoaresvieira/projeto_inep
-
----
-
-## Referências e rastreabilidade
-
-- [INEP — Microdados do ENEM (2024 e 2025)](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/enem)
-- [INEP — Microdados do Censo Escolar (2024 e 2025)](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/censo-escolar)
-- [INEP — Resultados oficiais IDEB 2025](https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb/resultados)
-- [INEP — Taxas de Rendimento Escolar](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/indicadores-educacionais/taxas-de-rendimento-escolar)
-- [INEP — Microdados do SAEB](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos/microdados/saeb)
-- Relatórios técnicos do projeto: https://github.com/psoaresvieira/projeto_inep/tree/main/reports
-- Código e testes: https://github.com/psoaresvieira/projeto_inep/tree/main/src
-- Documentação metodológica: https://github.com/psoaresvieira/projeto_inep/tree/main/docs
-
-**Nota editorial:** esta versão foi atualizada a partir do documento original de seis páginas, preservando seus objetivos, fontes, metodologia, regras de negócio, indicadores, estratégia de integração e propostas de decisão; os acréscimos explicitam a estrutura de cinco dashboards, o Power BI e o progresso real reportado do projeto.
+**Repositório:** [Projeto INEP — GitHub](https://github.com/psoaresvieira/projeto_inep).
