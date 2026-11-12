@@ -40,7 +40,7 @@ jobs:
               raise SystemExit(f"Esperadas 5 páginas; obtidas {len(pdf.pages)}.")
           texto="\n".join(p.extract_text() or "" for p in pdf.pages)
           obrigatorias=["PROJETO INEP","116.779","482","223","456","IDEB 2025",
-                        "Painel executivo geral","Visão territorial","Próximos passos"]
+                        "Painel executivo geral","Visão territorial","PLANO DE CONTINUIDADE"]
           ausentes=[item for item in obrigatorias if item not in texto]
           if ausentes:
               raise SystemExit("Conteúdo ausente: " + repr(ausentes))
