@@ -22,11 +22,11 @@ def organizar():
     if not text.startswith("# Projeto INEP"):
         raise ValueError("O arquivo de origem não corresponde à documentação revisada.")
     head, mark, body = text.partition("\n---\n")
-    if not mark or len(body) < 8000:
+    if not mark or len(body) < 3500:
         raise ValueError("Documento com conteúdo insuficiente.")
     headings = re.findall(r"(?m)^#\s+(\d+)\.\s+(.+)$", body)
-    if len(headings) != 12:
-        raise ValueError(f"Esperadas 12 seções, encontradas {len(headings)}.")
+    if not 6 <= len(headings) <= 9:
+        raise ValueError(f"Esperadas entre 6 e 9 seções, encontradas {len(headings)}.")
     toc = '<ol class="toc">' + "\n".join(
         f'<li><span>{html.escape(num)}.</span> {html.escape(title)}</li>'
         for num, title in headings
@@ -111,7 +111,7 @@ def build():
         <div class="cover-label">PROJETO ACADÊMICO • ANÁLISE DE DADOS</div>
         <div class="cover-title">Projeto INEP</div>
         <div class="cover-subtitle">Diagnóstico da qualidade do ensino médio público da Paraíba</div>
-        <p style="font-size:12pt;color:#bbd5de;margin-top:15mm;">Documentação acadêmica, técnica e funcional</p>
+        <p style="font-size:12pt;color:#bbd5de;margin-top:15mm;">Especificação das entregas — Power BI</p>
       </div>
       <div class="stripe"></div>
       <div class="cover-lower">
@@ -119,31 +119,26 @@ def build():
         <div class="cover-team"><strong>EQUIPE</strong>Pedro Alexandre<br>Pedro Henrique Faustino<br>
           Maria Vitória Espínola Carneiro</div>
       </div>
-      <div class="cover-footer">Governo do Estado da Paraíba • Metodologia D.E.I.L.A.S. • Proposta de 5 dashboards Power BI</div>
+      <div class="cover-footer">Análise de Dados • Ensino médio público da Paraíba • Cinco páginas Power BI</div>
     </div>
     <section class="intro">
       <div class="section-label">VISÃO GERAL</div>
-      <h1>Do dado educacional à decisão pública</h1>
-      <div class="summary-box">O projeto converte bases oficiais do INEP em diagnósticos de infraestrutura,
-      oferta e aprendizagem, com um relatório Power BI planejado em cinco páginas.
-      Os dados de 2024 já possuem preparação, auditoria e análise exploratória iniciais;
-      a implementação final em Power BI e a harmonização das bases de 2025 permanecem pendentes.</div>
+      <h1>O que será entregue</h1>
+      <div class="summary-box">A entrega principal será um relatório Power BI com cinco páginas integradas para visualizar aprendizagem, infraestrutura, desigualdades territoriais e prioridades de atenção na rede estadual da Paraíba. A documentação apresenta as páginas, os indicadores, as fontes oficiais, as funcionalidades essenciais e os produtos finais.</div>
       <h2 style="font-size:13pt;color:#102a43">Conteúdo do documento</h2>
       {toc}
-      <p style="clear:both; margin-top:12mm"><small>O documento distingue resultados executados,
-      protótipos já disponíveis e entregas ainda previstas. Indicadores de anos diferentes são apresentados
-      com suas limitações de comparação.</small></p>
+      <p style="clear:both; margin-top:12mm"><small>Documento de escopo e entregáveis. Indicadores dependem da disponibilidade, do período e da qualidade das fontes; resultados de anos diferentes terão identificação explícita.</small></p>
     </section>
     <main class="content">{article}</main>
     </body></html>"""
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     HTML(string=doc, base_url=str(ROOT)).write_pdf(str(OUTPUT))
     rd = PdfReader(str(OUTPUT))
-    if len(rd.pages) < 8:
+    if len(rd.pages) < 4:
         raise ValueError(f"PDF inesperadamente curto: {len(rd.pages)} páginas")
     first = (rd.pages[0].extract_text() or "")
     full = "\n".join((page.extract_text() or "") for page in rd.pages)
-    for phrase in ["Projeto INEP","Cinco dashboards","Power BI","482","29.393","IDEB"]:
+    for phrase in ["Projeto INEP","Power BI","Visão Executiva","Desigualdades Territoriais","Fontes oficiais"]:
         if phrase not in full:
             raise ValueError(f"Texto obrigatório ausente no PDF: {phrase}")
     print(f"PDF gerado: {OUTPUT} | páginas={len(rd.pages)} | bytes={OUTPUT.stat().st_size}")
