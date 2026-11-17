@@ -1,0 +1,29 @@
+{
+  "origem": [
+    "reports/municipios/municipios_agregados.json",
+    "reports/inspecao/perfil_paraiba.md",
+    "reports/filtragem/validacao_chaves_2024.md"
+  ],
+  "abrangencia": "Ensino médio estadual da Paraíba; ENEM restrito a participantes com escola estadual identificada",
+  "fonte": {
+    "censo": "INEP, Censo Escolar 2024",
+    "ideb": "INEP, IDEB escolar 2025",
+    "enem": "INEP, ENEM 2024"
+  },
+  "tabelas_linhas": {
+    "dim_municipio.csv": 223,
+    "fato_censo_municipio_2024.csv": 223,
+    "fato_infra_municipio_2024.csv": 1561,
+    "fato_ideb_municipio_2025.csv": 223,
+    "fato_enem_areas_2024.csv": 5,
+    "fato_cobertura_escolar_2024.csv": 1
+  },
+  "alertas": [
+    "Censo 2024 e IDEB 2025 têm anos e universos distintos; não correlacionar como mesmo período.",
+    "Médias de IDEB municipal são médias simples escolares, NÃO IDEB oficial agregado da rede.",
+    "Médias do IDEB com menos de 3 notas válidas estão suprimidas, nunca imputar.",
+    "Médias ENEM não representam todos os estudantes da rede.",
+    "Para percentuais de infraestrutura por grupo, somar escolas_sim e total_escolas APENAS por um recurso.",
+    "Códigos IBGE de município devem ser texto, com relacionamento 1:N da dimensão às tabelas municipais."
+  ]
+}
