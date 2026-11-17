@@ -1,0 +1,68 @@
+name: Preparar bases agregadas para Power BI
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/exportar-powerbi.yml"
+      - "src/07_exportar_powerbi.py"
+      - "tests/test_exportar_powerbi.py"
+      - "reports/municipios/municipios_agregados.json"
+      - "reports/inspecao/perfil_paraiba.md"
+      - "reports/filtragem/validacao_chaves_2024.md"
+
+permissions:
+  contents: write
+
+jobs:
+  exportar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verificar sintaxe e testes
+        run: |
+          python -m compileall -q src tests
+          python -m unittest discover -s tests -p "test_exportar_powerbi.py" -v
+      - name: Exportar indicadores agregados
+        run: |
+          python src/07_exportar_powerbi.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m=json.loads(Path("powerbi/dados/manifesto.json").read_text(encoding="utf-8"))
+          exp={
+              "dim_municipio.csv":223,
+              "fato_censo_municipio_2024.csv":223,
+              "fato_infra_municipio_2024.csv":1561,
+              "fato_ideb_municipio_2025.csv":223,
+              "fato_enem_areas_2024.csv":5,
+              "fato_cobertura_escolar_2024.csv":1,
+          }
+          assert m["tabelas_linhas"]==exp, m["tabelas_linhas"]
+          print("Tabelas verificadas:", exp)
+          PY
+      - name: Publicar CSVs agregados (sem dados individuais)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add powerbi/dados/
+          if git diff --cached --quiet; then
+            echo "Exportação já atualizada."
+          else
+            git commit -m "data: publica tabelas municipais e agregados para Power BI"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Arquivar pacote de importação
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bases-powerbi-paraiba
+          path: powerbi/dados/
+          retention-days: 30
